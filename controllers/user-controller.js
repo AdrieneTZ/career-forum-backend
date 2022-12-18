@@ -59,6 +59,7 @@ const userController = {
             role: role,
             email: email,
             account: account,
+            approvalStatus: 'reviewing',
             password: await bcrypt.hash(password, 10),
           },
         })
@@ -135,11 +136,22 @@ const userController = {
             password: 'incorrect',
           },
         })
-      } else {
+      }
+
+      // Check approval status
+      if (user.approvalStatus !== 'approved') {
+        res.status(400).json({
+          type: 'Login failed',
+          title: 'Unapproved user',
+          field_errors: {
+            approvalStatus: 'must be approved',
+          },
+        })
+      } else if (user.approvalStatus === 'approved') {
         // Remove password from user object for security purpose
         const { password, ...restUserData } = user
 
-        // As successfully login, sign a token
+        // Sign a token
         const token = jwt.sign(restUserData, process.env.JWT_SECRET, {
           expiresIn: '9d',
         })

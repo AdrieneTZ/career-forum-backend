@@ -189,3 +189,16 @@ http://localhost:3000/api
         }
       }
       ```
+
+    - **unapproved user**
+      ```json
+      status code: 400
+
+      {
+        "type": "Login failed",
+        "title": "Unapproved user",
+        "field_errors": {
+          "approvalStatus": "must be approved"
+        }
+      }
+      ```
