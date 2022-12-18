@@ -7,6 +7,9 @@ Career Forum is a forum for AC TAs, alumni and students to ask the questions and
   - All students that are at the third semester
   - Attended the the third semester and graduated from AC
 
+## ERD
+![ERD](images/career-forum-ERD.jpeg)
+
 ## Contents
 ### [Prerequisite](#prerequisite)
 ### [Start the Project](#start-the-project)
