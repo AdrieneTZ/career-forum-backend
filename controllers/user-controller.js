@@ -79,28 +79,28 @@ const userController = {
     }
   },
 
-  // User login
+  // User login with an eamil address
   // POST /api/users/login
   login: async (req, res, next) => {
-    const { account, password } = req.body
+    const { email, password } = req.body
 
     // Check if there is missing data
-    if (!account || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         type: 'Login failed',
         field_errors: {
-          account: 'required',
+          email: 'required',
           password: 'required',
         },
       })
     }
 
     // Check data type
-    if (typeof account !== 'string' || typeof password !== 'string') {
+    if (typeof email !== 'string' || typeof password !== 'string') {
       return res.status(400).json({
         type: 'Login failed',
         field_errors: {
-          account: 'string',
+          email: 'string',
           password: 'string',
         },
       })
@@ -110,16 +110,16 @@ const userController = {
       // Check if the current user has registered an account
       const user = await prisma.user.findUnique({
         where: {
-          account: account,
+          email: email,
         },
       })
 
       if (!user) {
         return res.status(400).json({
           type: 'Login failed',
-          title: 'Incorrect account or password',
+          title: 'Incorrect email or password',
           field_errors: {
-            account: 'incorrect',
+            email: 'incorrect',
             password: 'incorrect',
           },
         })
@@ -130,9 +130,9 @@ const userController = {
       if (!isCorrectPassword) {
         return res.status(400).json({
           type: 'Login failed',
-          title: 'Incorrect account or password',
+          title: 'Incorrect email or password',
           field_errors: {
-            account: 'incorrect',
+            email: 'incorrect',
             password: 'incorrect',
           },
         })

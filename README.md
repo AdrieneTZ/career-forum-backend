@@ -128,7 +128,7 @@ http://localhost:3000/api
       }
       ```
 
-##### User login
+##### User login with an email address
   ```
   POST /users/login
   ```
@@ -136,7 +136,7 @@ http://localhost:3000/api
   - **requset body:**
     ```json
     {
-      "account": "string" (required),
+      "email": "string" (required),
       "password": "string" (required)
     }
     ```
@@ -158,7 +158,7 @@ http://localhost:3000/api
       {
         "type": "Login failed",
         "field_errors": {
-          "account": "required",
+          "email": "required",
           "password": "required"
         }
       }
@@ -171,20 +171,20 @@ http://localhost:3000/api
       {
         "type": "Login failed",
         "field_errors": {
-          "account": "string",
+          "email": "string",
           "password": "string"
         }
       }
       ```
 
-    - **incorrect account or password**
+    - **incorrect email or password**
       ```json
       status code: 400
 
       {
         "type": "Login failed",
         "field_errors": {
-          "account": "incorrect",
+          "email": "incorrect",
           "password": "incorrect"
         }
       }
