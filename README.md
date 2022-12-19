@@ -115,15 +115,14 @@ http://localhost:3000/api
       }
       ```
 
-    - **email or account has been used**
+    - **email has been used**
       ```json
       status code: 400
 
       {
         "type": "Register failed",
         "field_errors": {
-          "email": "used",
-          "account": "used"
+          "email": "used"
         }
       }
       ```

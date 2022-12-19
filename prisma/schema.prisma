@@ -16,7 +16,7 @@ model User {
   name           String?
   email          String    @unique
   password       String
-  account        String    @unique
+  account        String
   approvalStatus String?
   avatar         String?
   cover          String?

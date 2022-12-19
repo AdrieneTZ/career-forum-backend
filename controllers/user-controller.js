@@ -45,11 +45,10 @@ const userController = {
     }
 
     try {
-      // Check if email or account have been registered
+      // Check if email have been registered
       const user = await prisma.user.findFirst({
         where: {
           email: email,
-          account: account,
         },
       })
 
@@ -68,7 +67,6 @@ const userController = {
           type: 'Register failed',
           field_errors: {
             email: 'used',
-            account: 'used',
           },
         })
       }
