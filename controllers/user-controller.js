@@ -8,7 +8,12 @@ const userController = {
   // User register
   // POST /api/users/register
   register: async (req, res, next) => {
-    const { role, email, account, password, confirmPassword } = req.body
+    let { role, email, account, password, confirmPassword } = req.body
+    role = role.replace(/\s+/g, '')
+    email = email.replace(/\s+/g, '')
+    account = account.replace(/\s+/g, '')
+    password = password.replace(/\s+/g, '')
+    confirmPassword = confirmPassword.replace(/\s+/g, '')
 
     // Check if there is missing data
     if (!role || !email || !account || !password || !confirmPassword) {
@@ -145,6 +150,7 @@ const userController = {
             approvalStatus: 'must be approved',
           },
         })
+        // add admin login with admin account
       } else if (user.approvalStatus === 'approved') {
         // Remove password from user object for security purpose
         const { password, ...restUserData } = user
