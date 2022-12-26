@@ -52,13 +52,13 @@ const userController = {
     }
 
     try {
-      // Check if email have been registered
       const user = await prisma.user.findFirst({
         where: {
           email: email,
         },
       })
 
+      // Check if email have been registered
       if (!user) {
         await prisma.user.create({
           data: {
@@ -67,6 +67,9 @@ const userController = {
             account: account,
             approvalStatus: 'reviewing',
             password: await bcrypt.hash(password, 10),
+            isAdmin: false,
+            isSuspended: false,
+            isDeleted: false,
           },
         })
       } else if (user) {
@@ -115,13 +118,24 @@ const userController = {
     }
 
     try {
-      // Check if the current user has registered an account
       const user = await prisma.user.findUnique({
         where: {
           email: email,
         },
       })
+      // Check if the current user has been suspended or deleted
+      if (user.isSuspended || user.isDeleted) {
+        return res.status(400).json({
+          type: 'Login failed',
+          title: 'User has been suspended or deleted',
+          field_errors: {
+            isSuspended: 'true',
+            isDeleted: 'true',
+          },
+        })
+      }
 
+      // Check if the current user has registered an account
       if (!user) {
         return res.status(400).json({
           type: 'Login failed',
