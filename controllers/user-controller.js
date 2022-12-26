@@ -19,6 +19,7 @@ const userController = {
     if (!role || !email || !account || !password || !confirmPassword) {
       return res.status(400).json({
         type: 'Register failed',
+        title: 'Missing required data',
         field_errors: {
           role: 'required',
           email: 'required',
@@ -39,6 +40,7 @@ const userController = {
     ) {
       return res.status(400).json({
         type: 'Register failed',
+        title: 'Incorrect datatype',
         field_errors: {
           role: 'string',
           email: 'string',
@@ -70,6 +72,7 @@ const userController = {
       } else if (user) {
         return res.status(400).json({
           type: 'Register failed',
+          title: 'Email is used',
           field_errors: {
             email: 'used',
           },
@@ -91,6 +94,7 @@ const userController = {
     if (!email || !password) {
       return res.status(400).json({
         type: 'Login failed',
+        title: 'Missing required data',
         field_errors: {
           email: 'required',
           password: 'required',
@@ -102,6 +106,7 @@ const userController = {
     if (typeof email !== 'string' || typeof password !== 'string') {
       return res.status(400).json({
         type: 'Login failed',
+        title: 'Incorrect datatype',
         field_errors: {
           email: 'string',
           password: 'string',
