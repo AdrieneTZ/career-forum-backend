@@ -9,26 +9,6 @@ const userController = {
   // POST /api/users/register
   register: async (req, res, next) => {
     let { role, email, account, password, confirmPassword } = req.body
-    role = role.replace(/\s+/g, '')
-    email = email.replace(/\s+/g, '')
-    account = account.replace(/\s+/g, '')
-    password = password.replace(/\s+/g, '')
-    confirmPassword = confirmPassword.replace(/\s+/g, '')
-
-    // Check if there is missing data
-    if (!role || !email || !account || !password || !confirmPassword) {
-      return res.status(400).json({
-        type: 'Register failed',
-        title: 'Missing required data',
-        field_errors: {
-          role: 'required',
-          email: 'required',
-          account: 'required',
-          password: 'required',
-          confirmPassword: 'required',
-        },
-      })
-    }
 
     // Check data type
     if (
@@ -47,6 +27,28 @@ const userController = {
           account: 'string',
           password: 'string',
           confirmPassword: 'string',
+        },
+      })
+    }
+
+    // Remove white space in each string
+    role = role.replace(/\s+/g, '')
+    email = email.replace(/\s+/g, '')
+    account = account.replace(/\s+/g, '')
+    password = password.replace(/\s+/g, '')
+    confirmPassword = confirmPassword.replace(/\s+/g, '')
+
+    // Check if there is missing data
+    if (!role || !email || !account || !password || !confirmPassword) {
+      return res.status(400).json({
+        type: 'Register failed',
+        title: 'Missing required data',
+        field_errors: {
+          role: 'required',
+          email: 'required',
+          account: 'required',
+          password: 'required',
+          confirmPassword: 'required',
         },
       })
     }
@@ -91,7 +93,11 @@ const userController = {
   // User login with an eamil address
   // POST /api/users/login
   login: async (req, res, next) => {
-    const { email, password } = req.body
+    let { email, password } = req.body
+
+    // Remove white space in each string
+    email = email.replace(/\s+/g, '')
+    password = password.replace(/\s+/g, '')
 
     // Check if there is missing data
     if (!email || !password) {
@@ -123,11 +129,12 @@ const userController = {
           email: email,
         },
       })
+
       // Check if the current user has been suspended or deleted
       if (user.isSuspended || user.isDeleted) {
         return res.status(400).json({
           type: 'Login failed',
-          title: 'User has been suspended or deleted',
+          title: 'Been suspended or deleted',
           field_errors: {
             isSuspended: 'true',
             isDeleted: 'true',

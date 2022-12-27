@@ -66,7 +66,7 @@ http://localhost:3000/api
   POST /users/register
   ```
 
-  - **requset body:**
+  - **Requset body:**
     ```json
     {
       "role": "string" (required),
@@ -77,34 +77,19 @@ http://localhost:3000/api
     }
     ```
 
-  - **response:**
-    - **success**
+  - **Response:**
+    - **Success**
       ```json
       status code: 201
       ```
 
-    - **missing data**
-      ```json
-      status code: 400
-
-      {
-        "type": "Register failed",
-        "field_errors": {
-          "role": "required",
-          "email": "required",
-          "account": "required",
-          "password": "required",
-          "confirmPassword": "required"
-        }
-      }
-      ```
-
-    - **incorrect data type**
+    - **Incorrect data type**
        ```json
       status code: 400
 
       {
         "type": "Register failed",
+        "title": "Incorrect datatype",
         "field_errors": {
           "role": "string",
           "email": "string",
@@ -115,12 +100,32 @@ http://localhost:3000/api
       }
       ```
 
-    - **email has been used**
+    - **Missing required data**
       ```json
       status code: 400
 
       {
         "type": "Register failed",
+        "title": "Missing required data",
+        "field_errors": {
+          "role": "required",
+          "email": "required",
+          "account": "required",
+          "password": "required",
+          "confirmPassword": "required"
+        }
+      }
+      ```
+
+
+
+    - **Email has been used**
+      ```json
+      status code: 400
+
+      {
+        "type": "Register failed",
+        "title": "Email is used",
         "field_errors": {
           "email": "used"
         }
@@ -132,7 +137,7 @@ http://localhost:3000/api
   POST /users/login
   ```
 
-  - **requset body:**
+  - **Requset body:**
     ```json
     {
       "email": "string" (required),
@@ -140,8 +145,8 @@ http://localhost:3000/api
     }
     ```
 
-  - **response:**
-    - **success**
+  - **Response:**
+    - **Success**
       ```json
       status code: 200
 
@@ -150,12 +155,13 @@ http://localhost:3000/api
       }
       ```
 
-    - **missing data**
+    - **Missing required data**
       ```json
       status code: 400
 
       {
         "type": "Login failed",
+        "title": "Missing required data",
         "field_errors": {
           "email": "required",
           "password": "required"
@@ -163,12 +169,13 @@ http://localhost:3000/api
       }
       ```
 
-    - **incorrect data type**
+    - **Incorrect data type**
        ```json
       status code: 400
 
       {
         "type": "Login failed",
+        "title": "Incorrect datatype",
         "field_errors": {
           "email": "string",
           "password": "string"
@@ -176,12 +183,27 @@ http://localhost:3000/api
       }
       ```
 
-    - **incorrect email or password**
+    - **Been suspended or deleted**
       ```json
       status code: 400
 
       {
         "type": "Login failed",
+        "title": "Been suspended or deleted",
+        "field_errors": {
+          "isSuspended": "true",
+          "isDeleted": "true"
+        }
+      }
+      ```
+
+    - **Incorrect email or password**
+      ```json
+      status code: 400
+
+      {
+        "type": "Login failed",
+        "title": "Incorrect email or password",
         "field_errors": {
           "email": "incorrect",
           "password": "incorrect"
@@ -189,7 +211,7 @@ http://localhost:3000/api
       }
       ```
 
-    - **unapproved user**
+    - **Unapproved user**
       ```json
       status code: 400
 
@@ -201,3 +223,5 @@ http://localhost:3000/api
         }
       }
       ```
+
+
