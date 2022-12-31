@@ -32,6 +32,7 @@
   "homepage": "",
   "description": "",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "prisma": "^4.7.1"
   }
 }
