@@ -195,7 +195,7 @@ const userController = {
   },
   getCurrentUser: async (req, res, next) => {
     try {
-      const currentUserId = getUser(req).id
+      const currentUserId = req.user.id
       const user = await prisma.user.findUnique({
         where: {
           id: currentUserId,

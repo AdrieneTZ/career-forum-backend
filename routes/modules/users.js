@@ -3,10 +3,7 @@ const router = express.Router()
 
 const userController = require('../../controllers/user-controller')
 
-// User login
-router.post('/login', userController.login)
-// User register
-router.post('/register', userController.register)
+// 取得當前使用者
 router.get('/current_user', userController.getCurrentUser)
 
 module.exports = router

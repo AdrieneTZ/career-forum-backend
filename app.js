@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(passport.initialize())
 
-app.use('/api', routes)
+app.use('/api/v1', routes)
 app.listen(port, () => console.log(`This app is listening on port ${port}.`))
 
 module.exports = app
