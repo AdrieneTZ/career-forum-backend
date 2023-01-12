@@ -12,10 +12,10 @@ const authAdmin = (req, res, next) => {
   if (getUser(req) && getUser(req).isAdmin) return next()
   return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
 }
-const authRole = (req, res, next) => {
-  if (getUser(req) && getUser(req).role === ('TA' || 'STUDENT' || 'GRADUATE')) return next()
-  return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
-}
+// const authRole = (req, res, next) => {
+//   if (getUser(req) && getUser(req).role === ('TA' || 'STUDENT' || 'GRADUATE')) return next()
+//   return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
+// }
 const authApprovalStatus = (req, res, next) => {
   if (getUser(req) && getUser(req).approvalStatus === 'approved') return next()
   return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
@@ -28,7 +28,7 @@ const authCurrentUser = (req, res, next) => {
 module.exports = {
   authenticated,
   authAdmin,
-  authRole,
+  // authRole,
   authApprovalStatus,
   authCurrentUser
 }
