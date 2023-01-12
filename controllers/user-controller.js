@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client')
-const { getUser } = require('../helpers/req-helpers')
+// const { getUser } = require('../helpers/req-helpers')
 
 const prisma = new PrismaClient()
 
@@ -213,7 +213,38 @@ const userController = {
         }
       })
       if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
+          status: 'error',
+          message: 'User does not exist'
+        })
+      }
+      res.status(200).json(user)
+    } catch (error) {
+      next(error)
+    }
+  },
+  getUser: async (req, res, next) => {
+    try {
+      const paramsId = Number(req.params.id)
+      const user = await prisma.user.findUnique({
+        where: {
+          id: paramsId,
+        },
+        select: {
+          id: true,
+          role: true,
+          name: true,
+          email: true,
+          account: true,
+          avatar: true,
+          cover: true,
+          approvalStatus: true,
+          createdAt: true,
+          updatedAt: true,
+        }
+      })
+      if (!user) {
+        return res.status(404).json({
           status: 'error',
           message: 'User does not exist'
         })

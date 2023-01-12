@@ -6,6 +6,8 @@ const { authCurrentUser } = require('../../middlewares/auth-req')
 
 // 取得當前使用者
 router.get('/current_user', userController.getCurrentUser)
+// 取得單筆使用者
+router.get('/:id', userController.getUser)
 
 // // 修改個人資料中的頭像
 // router.patch('/:id/avatar', authCurrentUser, upload.fields({ name: 'cover', maxCount: 1 }), userController.patchUserAvatar)
