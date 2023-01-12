@@ -8,6 +8,6 @@ const questionController = require('../../controllers/question-controller')
 // router.put('/:id', questionController.putQuestion)
 // router.delete('/:id', questionController.deleteQuestion)
 router.post('/', questionController.postQuestion)
-// router.get('/', questionController.getQuestions)
+router.get('/', questionController.getQuestions)
 
 module.exports = router

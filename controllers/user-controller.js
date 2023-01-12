@@ -63,7 +63,7 @@ const userController = {
 
       // Check if email have been registered
       if (!user) {
-        await prisma.user.create({
+        const user = await prisma.user.create({
           data: {
             role: role,
             email: email,
@@ -75,6 +75,8 @@ const userController = {
             isDeleted: false,
           },
         })
+        delete user.password
+        return res.status(201).json(user)
       } else if (user) {
         return res.status(400).json({
           type: 'Register failed',
@@ -85,7 +87,6 @@ const userController = {
         })
       }
 
-      return res.status(201).end()
     } catch (error) {
       next(error)
     }
