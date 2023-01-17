@@ -11,18 +11,61 @@ datasource db {
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
-  role           String
-  name           String?
-  email          String    @unique
+  id             Int            @id @default(autoincrement())
+  role           Role           @default(student)
+  name           String
+  email          String         @unique
   password       String
-  account        String
-  approvalStatus String?
+  approvalStatus approvalStatus @default(reviewing)
   avatar         String?
   cover          String?
-  createdAt      DateTime? @default(now())
-  updatedAt      DateTime? @updatedAt
-  isAdmin        Boolean   @default(false)
-  isSuspended    Boolean   @default(false)
-  isDeleted      Boolean   @default(false)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt
+  permissionRole permissionRole @default(user)
+  suspendedAt    DateTime?
+  deletedAt      DateTime?
+  Question       Question[]
+  Answer         Answer[]
+
+  @@index([email])
+}
+
+model Question {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  Answer    Answer[]
+  User      User      @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Answer {
+  id         Int       @id @default(autoincrement())
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  User       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  Question   Question  @relation(fields: [questionId], references: [id])
+  questionId Int
+}
+
+enum Role {
+  student
+  graduate
+  TA
+}
+
+enum approvalStatus {
+  reviewing
+  approved
+  rejected
+}
+
+enum permissionRole {
+  user
+  admin
+  developer
 }
