@@ -131,7 +131,6 @@ const userController = {
           email: email,
         },
       })
-
       // Check if the current user has been suspended or deleted
       if (user.isSuspended || user.isDeleted) {
         return res.status(400).json({
@@ -206,7 +205,6 @@ const userController = {
           role: true,
           name: true,
           email: true,
-          account: true,
           avatar: true,
           cover: true,
           createdAt: true,
@@ -236,7 +234,6 @@ const userController = {
           role: true,
           name: true,
           email: true,
-          account: true,
           avatar: true,
           cover: true,
           approvalStatus: true,

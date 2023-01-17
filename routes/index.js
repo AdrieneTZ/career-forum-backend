@@ -6,7 +6,7 @@ const question = require('./modules/question')
 // const admin = require('./modules/admin')
 
 const userController = require('../controllers/user-controller')
-const { authenticated, authAdmin } = require('../middlewares/auth-req')
+const { authenticated, authPermissionRole } = require('../middlewares/auth-req')
 
 // User login
 router.post('/login', userController.login)
@@ -16,6 +16,6 @@ router.post('/register', userController.register)
 router.use('/users', authenticated, user)
 router.use('/questions', authenticated, question)
 // router.use('/answers', authenticated, answer)
-// router.use('/admin', authenticated, authAdmin, admin)
+// router.use('/admin', authenticated, authPermissionRole, admin)
 
 module.exports = router
