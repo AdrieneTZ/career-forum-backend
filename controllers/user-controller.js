@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client')
-const { getUser } = require('../helpers/req-helpers')
+// const { getUser } = require('../helpers/req-helpers')
 
 const prisma = new PrismaClient()
 
@@ -63,7 +63,7 @@ const userController = {
 
       // Check if email have been registered
       if (!user) {
-        await prisma.user.create({
+        const user = await prisma.user.create({
           data: {
             role: role,
             email: email,
@@ -75,6 +75,8 @@ const userController = {
             isDeleted: false,
           },
         })
+        delete user.password
+        return res.status(201).json(user)
       } else if (user) {
         return res.status(400).json({
           type: 'Register failed',
@@ -85,7 +87,6 @@ const userController = {
         })
       }
 
-      return res.status(201).end()
     } catch (error) {
       next(error)
     }
@@ -213,12 +214,101 @@ const userController = {
         }
       })
       if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: 'error',
           message: 'User does not exist'
         })
       }
       res.status(200).json(user)
+    } catch (error) {
+      next(error)
+    }
+  },
+  getUser: async (req, res, next) => {
+    try {
+      const paramsId = Number(req.params.id)
+      const user = await prisma.user.findUnique({
+        where: {
+          id: paramsId,
+        },
+        select: {
+          id: true,
+          role: true,
+          name: true,
+          email: true,
+          account: true,
+          avatar: true,
+          cover: true,
+          approvalStatus: true,
+          createdAt: true,
+          updatedAt: true,
+        }
+      })
+      if (!user) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'User does not exist'
+        })
+      }
+      res.status(200).json(user)
+    } catch (error) {
+      next(error)
+    }
+  },
+  putUserSetting: async (req, res, next) => {
+    try {
+      // const currentUser = helpers.getUser(req)
+      // const { account, name, email, password, checkPassword } = req.body
+      // const paramsId = Number(req.params.id)
+      // if (!account?.trim() || !name?.trim() || !email?.trim() || !password?.trim() || !checkPassword?.trim()) throw new Error('所有欄位皆為必填!')
+      // if (password !== checkPassword) throw new Error('密碼與確認密碼不相符!')
+      // if (name?.length > 50) throw new Error('暱稱 name 上限 50 字!')
+      // const [user, userFoundByAccount, userFoundByEmail] = await Promise.all([
+      //   User.findByPk(paramsId),
+      //   User.findOne({ where: { account }, raw: true }),
+      //   User.findOne({ where: { email }, raw: true })
+      // ])
+      // if ((account === userFoundByAccount?.account) && (userFoundByAccount?.id !== currentUser.id)) throw new Error('account 已重複註冊!')
+      // if ((email === userFoundByEmail?.email) && (userFoundByEmail?.id !== currentUser.id)) throw new Error('email 已重複註冊!')
+      // const renewUser = await user.update({
+      //   account,
+      //   name,
+      //   email,
+      //   password: bcrypt.hashSync(password, 10)
+      // })
+      // const renewUserData = renewUser.toJSON()
+      // delete renewUserData.password
+      // res.json({ status: 'success', message: '帳號內容已成功修改!', renewUser: renewUserData })
+    } catch (error) {
+      next(error)
+    }
+  },
+  patchUserAvatar: async (req, res, next) => {
+    try {
+      // const paramsId = Number(req.params.id)
+      // const user = await User.findByPk(paramsId)
+      // if (!user) throw new Error('使用者不存在!')
+      // const updatedUser = await user.update({
+      //   cover: 'https://i.imgur.com/dIsjVjn.jpeg' || user.cover
+      // })
+      // const updatedUserData = updatedUser.toJSON()
+      // delete updatedUserData.password
+      // res.status(200).json(updatedUserData)
+    } catch (error) {
+      next(error)
+    }
+  },
+  patchUserCover: async (req, res, next) => {
+    try {
+      // const paramsId = Number(req.params.id)
+      // const user = await User.findByPk(paramsId)
+      // if (!user) throw new Error('使用者不存在!')
+      // const updatedUser = await user.update({
+      //   cover: 'https://i.imgur.com/dIsjVjn.jpeg' || user.cover
+      // })
+      // const updatedUserData = updatedUser.toJSON()
+      // delete updatedUserData.password
+      // res.status(200).json(updatedUserData)
     } catch (error) {
       next(error)
     }
