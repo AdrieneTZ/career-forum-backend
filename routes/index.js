@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const userController = require('../controllers/user-controller')
 const user = require('./modules/user')
 const question = require('./modules/question')
 // const answer = require('./modules/answer')
