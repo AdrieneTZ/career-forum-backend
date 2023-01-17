@@ -6,6 +6,7 @@ const usersSeeder = require('./seeders/users-seeder')
 
 async function main() {
   await usersSeeder()
+  await generateQuestions()
 }
 
 main()
