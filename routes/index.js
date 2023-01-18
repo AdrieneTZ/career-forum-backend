@@ -5,11 +5,13 @@ const questions = require('./modules/questions')
 // const answers = require('./modules/answers')
 // const admins = require('./modules/admins')
 
+const passport = require('../config/passport')
+
 const userController = require('../controllers/user-controller')
 const { authenticated, authPermissionRole } = require('../middlewares/auth-req')
 
 // User login
-router.post('/login', userController.login)
+router.post('/login', passport.authenticate('local', { session: false }), userController.login)
 // User register
 router.post('/register', userController.register)
 
