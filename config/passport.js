@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
       const user = await prisma.user.findUnique({ where: { email } })
       if (!user) {
         const error = new Error('User does not exist!')
-        error.statusCode = 401
+        error.statusCode = 404
         cb(error)
         return
       }
