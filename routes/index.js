@@ -8,15 +8,15 @@ const questions = require('./modules/questions')
 const passport = require('../config/passport')
 
 const userController = require('../controllers/user-controller')
-const { authenticated, authPermissionRole } = require('../middlewares/auth-req')
+const { authenticated, authPermissionRole, authApprovalStatus } = require('../middlewares/auth-req')
 
 // User login
 router.post('/login', passport.authenticate('local', { session: false }), userController.login)
 // User register
 router.post('/register', userController.register)
 
-router.use('/users', authenticated, users)
-router.use('/questions', authenticated, questions)
+router.use('/users', authenticated, authApprovalStatus, users)
+router.use('/questions', authenticated, authApprovalStatus, questions)
 // router.use('/answers', authenticated, answers)
 // router.use('/admin', authenticated, authPermissionRole, admins)
 

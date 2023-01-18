@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
       const user = await prisma.user.findUnique({ where: { email } })
       if (!user) {
         const error = new Error('User does not exist!')
-        error.statusCode = 404
+        error.statusCode = 401
         cb(error)
         return
       }
@@ -28,12 +28,6 @@ passport.use(new LocalStrategy(
       if (!passwordCompare) {
         const error = new Error('Passwords do not match!')
         error.statusCode = 401
-        cb(error)
-        return
-      }
-      if (user.approvalStatus !== 'approved') {
-        const error = new Error('Unapproved user')
-        error.statusCode = 403
         cb(error)
         return
       }
