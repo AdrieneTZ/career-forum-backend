@@ -19,6 +19,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "migrate": "npx prisma migrate dev",
+    "seed": "npx prisma db seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
