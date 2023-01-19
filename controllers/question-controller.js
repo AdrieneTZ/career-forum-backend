@@ -72,22 +72,33 @@ const questionController = {
   // GET api/question/:id 取得一筆問題
   getQuestion: async (req, res, next) => {
     const questionId = Number(req.params.id)
-    Promise.all([
-      Question.findByPk(questionId, {
-        include: [{ model: User, attributes: ['id', 'role', 'account', 'avatar'] }]
+    const [question, answerCount] = await Promise.all([
+      prisma.question.findUnique({
+        where: {
+          id: questionId
+        },
+        include: {
+          User: {
+            select: {
+              id: true,
+              role: true,
+              avatar: true,
+            },
+          }
+        }
       }),
-      Answer.findAndCountAll({ where: { questionId } })
+      prisma.answer.count({ where: { questionId } })
     ])
-      .then(([question, answer]) => {
-        if (!question) res.status(404).json({
-          status: 'error',
-          message: 'The question is not found.'
-        })
-        const { ...data } = question.toJSON()
-        data.answersCount = answer.count
-        res.json(data)
-      })
-      .catch(err => next(err))
+    if (!question) res.status(404).json({
+      status: 'error',
+      message: 'The question is not found.'
+    })
+    question.answerCount = answerCount
+    res.status(200).json({
+      status: 'success',
+      message: "Get specific question",
+      question
+    })
   },
   postQuestion: async (req, res, next) => {
     try {
