@@ -24,8 +24,8 @@ model User {
   permissionRole permissionRole @default(user)
   suspendedAt    DateTime?
   deletedAt      DateTime?
-  Question       Question[]
-  Answer         Answer[]
+  Questions       Question[]
+  Answers         Answer[]
 
   @@index([email])
 }
@@ -36,7 +36,7 @@ model Question {
   content   String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  Answer    Answer[]
+  Answers    Answer[]
   User      User      @relation(fields: [userId], references: [id])
   userId    Int
 }
