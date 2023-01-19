@@ -27,6 +27,7 @@ const questionController = {
             select: {
               id: true,
               role: true,
+              name: true,
               avatar: true,
             },
           },
@@ -36,6 +37,7 @@ const questionController = {
                 select: {
                   id: true,
                   role: true,
+                  name: true,
                   avatar: true,
                 },
               }
@@ -83,6 +85,7 @@ const questionController = {
               select: {
                 id: true,
                 role: true,
+                name: true,
                 avatar: true,
               },
             }
@@ -125,6 +128,7 @@ const questionController = {
             select: {
               id: true,
               role: true,
+              name: true,
               avatar: true,
             },
           }
