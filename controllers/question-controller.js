@@ -52,17 +52,42 @@ const questionController = {
         skip: offset,
         take: limit,
       })
+      const renewQuestions = questions
+        .map(question => ({
+          ...question,
+          answersCount: question._count.Answers
+        }))
       res.status(200).json({
         status: 'success',
         message: "Get questions",
         count,
         page,
         limit,
-        questions
+        questions: renewQuestions
       })
     } catch (error) {
       next(error)
     }
+  },
+  // GET api/question/:id 取得一筆問題
+  getQuestion: async (req, res, next) => {
+    const questionId = Number(req.params.id)
+    Promise.all([
+      Question.findByPk(questionId, {
+        include: [{ model: User, attributes: ['id', 'role', 'account', 'avatar'] }]
+      }),
+      Answer.findAndCountAll({ where: { questionId } })
+    ])
+      .then(([question, answer]) => {
+        if (!question) res.status(404).json({
+          status: 'error',
+          message: 'The question is not found.'
+        })
+        const { ...data } = question.toJSON()
+        data.answersCount = answer.count
+        res.json(data)
+      })
+      .catch(err => next(err))
   },
   postQuestion: async (req, res, next) => {
     try {
