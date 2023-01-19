@@ -18,7 +18,7 @@ const authApprovalStatus = (req, res, next) => {
 }
 const authCurrentUser = (req, res, next) => {
   if (getUser(req).id === Number(req.params.id)) return next()
-  return res.status(403).json({ status: 'error', message: 'You can only edit your own data' })
+  return res.status(403).json({ status: 'error', message: 'You can only edit your own profile data' })
 }
 
 module.exports = {
