@@ -1,9 +1,9 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client')
-// const { getUser } = require('../helpers/req-helpers')
-
 const prisma = new PrismaClient()
+
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const { imgurUploadImageHandler } = require('../helpers/file-helpers')
 
 const userController = {
   // User register
@@ -217,7 +217,11 @@ const userController = {
           message: 'User does not exist'
         })
       }
-      res.status(200).json(user)
+      res.status(200).json({
+        status: 'success',
+        message: 'Get current user.',
+        user
+      })
     } catch (error) {
       next(error)
     }
@@ -247,65 +251,113 @@ const userController = {
           message: 'User does not exist'
         })
       }
-      res.status(200).json(user)
+      res.status(200).json({
+        status: 'success',
+        message: 'Get specific user.',
+        user
+      })
     } catch (error) {
       next(error)
     }
   },
-  putUserSetting: async (req, res, next) => {
+  putUser: async (req, res, next) => {
     try {
-      // const currentUser = helpers.getUser(req)
-      // const { account, name, email, password, checkPassword } = req.body
-      // const paramsId = Number(req.params.id)
-      // if (!account?.trim() || !name?.trim() || !email?.trim() || !password?.trim() || !checkPassword?.trim()) throw new Error('所有欄位皆為必填!')
-      // if (password !== checkPassword) throw new Error('密碼與確認密碼不相符!')
-      // if (name?.length > 50) throw new Error('暱稱 name 上限 50 字!')
-      // const [user, userFoundByAccount, userFoundByEmail] = await Promise.all([
-      //   User.findByPk(paramsId),
-      //   User.findOne({ where: { account }, raw: true }),
-      //   User.findOne({ where: { email }, raw: true })
-      // ])
-      // if ((account === userFoundByAccount?.account) && (userFoundByAccount?.id !== currentUser.id)) throw new Error('account 已重複註冊!')
-      // if ((email === userFoundByEmail?.email) && (userFoundByEmail?.id !== currentUser.id)) throw new Error('email 已重複註冊!')
-      // const renewUser = await user.update({
-      //   account,
-      //   name,
-      //   email,
-      //   password: bcrypt.hashSync(password, 10)
-      // })
-      // const renewUserData = renewUser.toJSON()
-      // delete renewUserData.password
-      // res.json({ status: 'success', message: '帳號內容已成功修改!', renewUser: renewUserData })
-    } catch (error) {
-      next(error)
-    }
-  },
-  patchUserAvatar: async (req, res, next) => {
-    try {
-      // const paramsId = Number(req.params.id)
-      // const user = await User.findByPk(paramsId)
-      // if (!user) throw new Error('使用者不存在!')
-      // const updatedUser = await user.update({
-      //   cover: 'https://i.imgur.com/dIsjVjn.jpeg' || user.cover
-      // })
-      // const updatedUserData = updatedUser.toJSON()
-      // delete updatedUserData.password
-      // res.status(200).json(updatedUserData)
+      const reqUser = req.user
+      const { role, name, email, password, confirmPassword } = req.body
+      const paramsId = Number(req.params.id)
+      if (!role?.trim() || !email?.trim() || !password?.trim() || !confirmPassword?.trim()) return res.status(400).json({
+        status: '400F',
+        message: 'Fields:role, email, account, password and confirmPassword are required.'
+      })
+      if (password !== confirmPassword) return res.status(400).json({
+        status: '400F',
+        message: 'Fields:密碼與確認密碼不相符!'
+      })
+      const { files } = req
+      const [user, userFoundByEmail, avatarFilePath, coverFilePath] = await Promise.all([
+        prisma.user.findUnique({ where: { id: paramsId } }),
+        prisma.user.findUnique({ where: { email } }),
+        imgurUploadImageHandler(files?.avatar ? files.avatar[0] : null),
+        imgurUploadImageHandler(files?.cover ? files.cover[0] : null)
+      ])
+      if (!user) return res.status(404).json({
+        status: 'error',
+        message: "User is not found"
+      })
+      if ((email === userFoundByEmail?.email) && (userFoundByEmail?.id !== reqUser.id)) return res.status(400).json({
+        statusCode: '400D',
+        message: 'Data:email 已重複註冊!'
+      })
+      const updatedUser = await prisma.user.update({
+        where: { id: paramsId },
+        data: {
+          role,
+          name,
+          password: await bcrypt.hash(password, 10),
+          avatar: avatarFilePath || user.avatar,
+          cover: coverFilePath || user.cover
+        },
+      })
+      delete updatedUser.password
+      res.status(200).json({
+        status: 'success',
+        message: '成功修改個人資料',
+        user: updatedUser
+      })
     } catch (error) {
       next(error)
     }
   },
   patchUserCover: async (req, res, next) => {
     try {
-      // const paramsId = Number(req.params.id)
-      // const user = await User.findByPk(paramsId)
-      // if (!user) throw new Error('使用者不存在!')
-      // const updatedUser = await user.update({
-      //   cover: 'https://i.imgur.com/dIsjVjn.jpeg' || user.cover
-      // })
-      // const updatedUserData = updatedUser.toJSON()
-      // delete updatedUserData.password
-      // res.status(200).json(updatedUserData)
+      const paramsId = Number(req.params.id)
+      const user = await prisma.user.findUnique({ where: { id: paramsId } })
+      if (!user) return res.status(404).json({
+        status: 'error',
+        message: "User is not found"
+      })
+      const updatedUser = await prisma.user.update({
+        where: { id: paramsId },
+        data: {
+          cover: ''
+        },
+        select: {
+          id: true,
+          cover: true
+        }
+      })
+      res.status(200).json({
+        status: "success",
+        message: "成功刪除封面照",
+        user: updatedUser
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+  patchUserAvatar: async (req, res, next) => {
+    try {
+      const paramsId = Number(req.params.id)
+      const user = await prisma.user.findUnique({ where: { id: paramsId } })
+      if (!user) return res.status(404).json({
+        status: 'error',
+        message: "User is not found"
+      })
+      const updatedUser = await prisma.user.update({
+        where: { id: paramsId },
+        data: {
+          avatar: ''
+        },
+        select: {
+          id: true,
+          avatar: true
+        }
+      })
+      res.status(200).json({
+        status: "success",
+        message: "成功刪除頭像",
+        user: updatedUser
+      })
     } catch (error) {
       next(error)
     }
