@@ -7,42 +7,11 @@ const { imgurUploadImageHandler } = require('../helpers/file-helpers')
 
 const userController = {
   // User register
-  // POST /api/register
+  // POST /api/v1/register
   register: async (req, res, next) => {
-    let { role, email, name, password, confirmPassword } = req.body
-
-    // Check data type
-    if (
-      typeof role !== 'string' ||
-      typeof email !== 'string' ||
-      typeof name !== 'string' ||
-      typeof password !== 'string' ||
-      typeof confirmPassword !== 'string'
-    ) {
-      return res.status(400).json({
-        status: '400F',
-        message:
-          'Field: role, email, name, password, confirmPassword must be string.',
-      })
-    }
-
-    // Remove white space in each string
-    role = role.replace(/\s+/g, '')
-    email = email.replace(/\s+/g, '')
-    name = account.replace(/\s+/g, '')
-    password = password.replace(/\s+/g, '')
-    confirmPassword = confirmPassword.replace(/\s+/g, '')
-
-    // Check if there is missing data
-    if (!role || !email || !name || !password || !confirmPassword) {
-      return res.status(400).json({
-        status: '400F',
-        message:
-          'Field: role, email, name, password, confirmPassword are required.',
-      })
-    }
-
     try {
+      const { role, email, name, password } = req.body
+
       const user = await prisma.user.findFirst({
         where: {
           email: email,
@@ -61,6 +30,7 @@ const userController = {
             permissionRole: 'user',
           },
         })
+
         delete user.password
         return res.status(201).json({
           status: 'Success',
@@ -79,102 +49,28 @@ const userController = {
   },
 
   // User login with an eamil address
-  // POST /api/users/login
+  // POST /api/v1/login
   login: async (req, res, next) => {
-    let { email, password } = req.body
-
-    // Remove white space in each string
-    email = email.replace(/\s+/g, '')
-    password = password.replace(/\s+/g, '')
-
-    // Check if there is missing data
-    if (!email || !password) {
-      return res.status(400).json({
-        type: 'Login failed',
-        title: 'Missing required data',
-        field_errors: {
-          email: 'required',
-          password: 'required',
-        },
-      })
-    }
-
-    // Check data type
-    if (typeof email !== 'string' || typeof password !== 'string') {
-      return res.status(400).json({
-        type: 'Login failed',
-        title: 'Incorrect datatype',
-        field_errors: {
-          email: 'string',
-          password: 'string',
-        },
-      })
-    }
+    const user = req.user
 
     try {
-      const user = await prisma.user.findUnique({
-        where: {
-          email: email,
-        },
-      })
       // Check if the current user has been suspended or deleted
-      if (user.isSuspended || user.isDeleted) {
-        return res.status(400).json({
-          type: 'Login failed',
-          title: 'Been suspended or deleted',
-          field_errors: {
-            isSuspended: 'true',
-            isDeleted: 'true',
-          },
+      if (user.suspendedAt || user.deletedAt) {
+        return res.status(403).json({
+          status: '403',
+          message: 'The user is suspended or deleted.',
         })
       }
 
-      // Check if the current user has registered an account
-      if (!user) {
-        return res.status(400).json({
-          type: 'Login failed',
-          title: 'Incorrect email or password',
-          field_errors: {
-            email: 'incorrect',
-            password: 'incorrect',
-          },
-        })
-      }
+      // Remove password from user object for security purpose
+      const { password, ...restUserData } = user
 
-      // Check password
-      const isCorrectPassword = await bcrypt.compare(password, user.password)
-      if (!isCorrectPassword) {
-        return res.status(400).json({
-          type: 'Login failed',
-          title: 'Incorrect email or password',
-          field_errors: {
-            email: 'incorrect',
-            password: 'incorrect',
-          },
-        })
-      }
+      // Sign a token
+      const token = jwt.sign(restUserData, process.env.JWT_SECRET, {
+        expiresIn: '9d',
+      })
 
-      // Check approval status
-      if (user.approvalStatus !== 'approved') {
-        res.status(400).json({
-          type: 'Login failed',
-          title: 'Unapproved user',
-          field_errors: {
-            approvalStatus: 'must be approved',
-          },
-        })
-        // add admin login with admin account
-      } else if (user.approvalStatus === 'approved') {
-        // Remove password from user object for security purpose
-        const { password, ...restUserData } = user
-
-        // Sign a token
-        const token = jwt.sign(restUserData, process.env.JWT_SECRET, {
-          expiresIn: '9d',
-        })
-
-        return res.status(200).json({ token: token })
-      }
+      return res.status(200).json({ token: token })
     } catch (error) {
       next(error)
     }
