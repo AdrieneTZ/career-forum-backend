@@ -18,23 +18,28 @@ const adminController = {
       const DEFAULT_LIMIT = 10
       const page = queryPage || DEFAULT_PAGE
       const limit = queryLimit || DEFAULT_LIMIT
-      const offset = getOffset(page, limit)
+      const offset = getOffset(limit, page)
 
-      // Count user data
-      const count = await prisma.user.count({
-        skip: offset,
-        take: limit,
-      })
+      // Data
+      let users
+      let count
 
-      // If no approvelStatus value in request query, get all users data
-      if (queryApprovalStatus === '') {
-        const users = await prisma.user.findMany({
+      // If there is no approvalStatus value in request query, get all users data
+      // If there is value in approvalStatus, get users data with the request value
+      if (!queryApprovalStatus) {
+        count = await prisma.user.count({
+          skip: offset,
+          take: limit,
+        })
+
+        users = await prisma.user.findMany({
           select: {
             id: true,
             role: true,
             email: true,
             approvalStatus: true,
             avatar: true,
+            createdAt: true,
           },
           skip: offset,
           take: limit,
@@ -42,22 +47,15 @@ const adminController = {
             createdAt: 'desc',
           },
         })
-        console.log(users)
-
-        if (users === 'undefined') {
-          return res.status(404).json({
-            status: 'error',
-            message: 'Users data are not found.',
-          })
-        } else if (users) {
-          return res.status(200).json({
-            status: 'success',
-            message: 'Get users',
-            count,
-            users,
-          })
-        }
       } else if (queryApprovalStatus) {
+        count = await prisma.user.count({
+          where: {
+            approvalStatus: queryApprovalStatus,
+          },
+          skip: offset,
+          take: limit,
+        })
+
         users = await prisma.user.findMany({
           where: {
             approvalStatus: queryApprovalStatus,
@@ -75,21 +73,20 @@ const adminController = {
             createdAt: 'desc',
           },
         })
+      }
 
-        if (users === 'undefined') {
-          return res.status(404).json({
-            status: 'error',
-            message: 'Users data are not found.',
-          })
-        } else if (users) {
-          users.count = count
-          return res.status(200).json({
-            status: 'success',
-            message: 'Get users',
-            count,
-            users,
-          })
-        }
+      if (!users) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'Users data are not found.',
+        })
+      } else if (users) {
+        return res.status(200).json({
+          status: 'success',
+          message: 'Get users',
+          count,
+          users,
+        })
       }
     } catch (error) {
       next(error)
