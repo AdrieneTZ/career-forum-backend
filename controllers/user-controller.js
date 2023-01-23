@@ -275,7 +275,6 @@ const userController = {
       const { files } = req
       const [user, avatarFilePath, coverFilePath] = await Promise.all([
         prisma.user.findUnique({ where: { id: paramsId } }),
-
         imgurUploadImageHandler(files?.avatar ? files.avatar[0] : null),
         imgurUploadImageHandler(files?.cover ? files.cover[0] : null)
       ])
@@ -283,7 +282,6 @@ const userController = {
         status: 'error',
         message: "User is not found"
       })
-
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
         data: {
