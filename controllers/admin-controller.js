@@ -83,7 +83,7 @@ const adminController = {
       } else if (users) {
         return res.status(200).json({
           status: 'success',
-          message: 'Get users',
+          message: 'Get users.',
           count,
           users,
         })
@@ -94,9 +94,44 @@ const adminController = {
   },
   // Admin change user's approval status on backstage
   // PATCH /api/v1/admins/users/:id
-  patchUsers: async (req, res, next) => {
+  patchUser: async (req, res, next) => {
     try {
       const userId = Number(req.params.id)
+      const { approvalStatus } = req.body
+
+      // Check if user data exists
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      })
+      if (!user) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'User data is not found.',
+        })
+      }
+
+      // Update approvalStatus
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          approvalStatus: approvalStatus,
+        },
+        select: {
+          id: true,
+          name: true,
+          approvalStatus: true,
+        },
+      })
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Update approvalStatus',
+        updatedUser,
+      })
     } catch (error) {
       next(error)
     }

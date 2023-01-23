@@ -34,6 +34,6 @@ router.post('/register', validateRegisterRequestBody, userController.register)
 router.use('/users', authenticated, authApprovalStatus, users)
 router.use('/questions', authenticated, authApprovalStatus, questions)
 // router.use('/answers', authenticated, answers)
-router.use('/admin', authenticated, authPermissionRole, admins)
+router.use('/admins', authenticated, authPermissionRole, admins)
 
 module.exports = router
