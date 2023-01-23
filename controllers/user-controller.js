@@ -33,14 +33,14 @@ const userController = {
 
         delete user.password
         return res.status(201).json({
-          status: 'Success',
+          status: 'success',
           message: 'Register successfully',
           user,
         })
       } else if (user) {
         return res.status(400).json({
-          status: '400E',
-          message: 'Email is used',
+          status: '400F',
+          message: 'Field: email has been used.',
         })
       }
     } catch (error) {
