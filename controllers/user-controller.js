@@ -7,50 +7,38 @@ const { imgurUploadImageHandler } = require('../helpers/file-helpers')
 
 const userController = {
   // User register
-  // POST /api/users/register
+  // POST /api/register
   register: async (req, res, next) => {
-    let { role, email, account, password, confirmPassword } = req.body
+    let { role, email, name, password, confirmPassword } = req.body
 
     // Check data type
     if (
       typeof role !== 'string' ||
       typeof email !== 'string' ||
-      typeof account !== 'string' ||
+      typeof name !== 'string' ||
       typeof password !== 'string' ||
       typeof confirmPassword !== 'string'
     ) {
       return res.status(400).json({
-        type: 'Register failed',
-        title: 'Incorrect datatype',
-        field_errors: {
-          role: 'string',
-          email: 'string',
-          account: 'string',
-          password: 'string',
-          confirmPassword: 'string',
-        },
+        status: '400F',
+        message:
+          'Field: role, email, name, password, confirmPassword must be string.',
       })
     }
 
     // Remove white space in each string
     role = role.replace(/\s+/g, '')
     email = email.replace(/\s+/g, '')
-    account = account.replace(/\s+/g, '')
+    name = account.replace(/\s+/g, '')
     password = password.replace(/\s+/g, '')
     confirmPassword = confirmPassword.replace(/\s+/g, '')
 
     // Check if there is missing data
-    if (!role || !email || !account || !password || !confirmPassword) {
+    if (!role || !email || !name || !password || !confirmPassword) {
       return res.status(400).json({
-        type: 'Register failed',
-        title: 'Missing required data',
-        field_errors: {
-          role: 'required',
-          email: 'required',
-          account: 'required',
-          password: 'required',
-          confirmPassword: 'required',
-        },
+        status: '400F',
+        message:
+          'Field: role, email, name, password, confirmPassword are required.',
       })
     }
 
@@ -67,26 +55,24 @@ const userController = {
           data: {
             role: role,
             email: email,
-            account: account,
-            approvalStatus: 'reviewing',
+            name: name,
             password: await bcrypt.hash(password, 10),
-            isAdmin: false,
-            isSuspended: false,
-            isDeleted: false,
+            approvalStatus: 'reviewing',
+            permissionRole: 'user',
           },
         })
         delete user.password
-        return res.status(201).json(user)
+        return res.status(201).json({
+          status: 'Success',
+          message: 'Register successfully',
+          user,
+        })
       } else if (user) {
         return res.status(400).json({
-          type: 'Register failed',
-          title: 'Email is used',
-          field_errors: {
-            email: 'used',
-          },
+          status: '400E',
+          message: 'Email is used',
         })
       }
-
     } catch (error) {
       next(error)
     }
@@ -209,18 +195,18 @@ const userController = {
           cover: true,
           createdAt: true,
           updatedAt: true,
-        }
+        },
       })
       if (!user) {
         return res.status(404).json({
           status: 'error',
-          message: 'User does not exist'
+          message: 'User does not exist',
         })
       }
       res.status(200).json({
         status: 'success',
         message: 'Get current user.',
-        user
+        user,
       })
     } catch (error) {
       next(error)
@@ -243,18 +229,18 @@ const userController = {
           approvalStatus: true,
           createdAt: true,
           updatedAt: true,
-        }
+        },
       })
       if (!user) {
         return res.status(404).json({
           status: 'error',
-          message: 'User does not exist'
+          message: 'User does not exist',
         })
       }
       res.status(200).json({
         status: 'success',
         message: 'Get specific user.',
-        user
+        user,
       })
     } catch (error) {
       next(error)
@@ -264,24 +250,28 @@ const userController = {
     try {
       const { role, name, password, confirmPassword } = req.body
       const paramsId = Number(req.params.id)
-      if (!role?.trim() || !password?.trim() || !confirmPassword?.trim()) return res.status(400).json({
-        status: '400F',
-        message: 'Field:role, account, password and confirmPassword are required.'
-      })
-      if (password !== confirmPassword) return res.status(400).json({
-        status: '400F',
-        message: 'Field:密碼與確認密碼不相符!'
-      })
+      if (!role?.trim() || !password?.trim() || !confirmPassword?.trim())
+        return res.status(400).json({
+          status: '400F',
+          message:
+            'Field:role, account, password and confirmPassword are required.',
+        })
+      if (password !== confirmPassword)
+        return res.status(400).json({
+          status: '400F',
+          message: 'Field:密碼與確認密碼不相符!',
+        })
       const { files } = req
       const [user, avatarFilePath, coverFilePath] = await Promise.all([
         prisma.user.findUnique({ where: { id: paramsId } }),
         imgurUploadImageHandler(files?.avatar ? files.avatar[0] : null),
-        imgurUploadImageHandler(files?.cover ? files.cover[0] : null)
+        imgurUploadImageHandler(files?.cover ? files.cover[0] : null),
       ])
-      if (!user) return res.status(404).json({
-        status: 'error',
-        message: "User is not found"
-      })
+      if (!user)
+        return res.status(404).json({
+          status: 'error',
+          message: 'User is not found',
+        })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
         data: {
@@ -289,14 +279,14 @@ const userController = {
           name,
           password: await bcrypt.hash(password, 10),
           avatar: avatarFilePath || user.avatar,
-          cover: coverFilePath || user.cover
+          cover: coverFilePath || user.cover,
         },
       })
       delete updatedUser.password
       res.status(200).json({
         status: 'success',
         message: '成功修改個人資料',
-        user: updatedUser
+        user: updatedUser,
       })
     } catch (error) {
       next(error)
@@ -306,24 +296,25 @@ const userController = {
     try {
       const paramsId = Number(req.params.id)
       const user = await prisma.user.findUnique({ where: { id: paramsId } })
-      if (!user) return res.status(404).json({
-        status: 'error',
-        message: "User is not found"
-      })
+      if (!user)
+        return res.status(404).json({
+          status: 'error',
+          message: 'User is not found',
+        })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
         data: {
-          cover: ''
+          cover: '',
         },
         select: {
           id: true,
-          cover: true
-        }
+          cover: true,
+        },
       })
       res.status(200).json({
-        status: "success",
-        message: "成功刪除封面照",
-        user: updatedUser
+        status: 'success',
+        message: '成功刪除封面照',
+        user: updatedUser,
       })
     } catch (error) {
       next(error)
@@ -333,29 +324,30 @@ const userController = {
     try {
       const paramsId = Number(req.params.id)
       const user = await prisma.user.findUnique({ where: { id: paramsId } })
-      if (!user) return res.status(404).json({
-        status: 'error',
-        message: "User is not found"
-      })
+      if (!user)
+        return res.status(404).json({
+          status: 'error',
+          message: 'User is not found',
+        })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
         data: {
-          avatar: ''
+          avatar: '',
         },
         select: {
           id: true,
-          avatar: true
-        }
+          avatar: true,
+        },
       })
       res.status(200).json({
-        status: "success",
-        message: "成功刪除頭像",
-        user: updatedUser
+        status: 'success',
+        message: '成功刪除頭像',
+        user: updatedUser,
       })
     } catch (error) {
       next(error)
     }
-  }
+  },
 }
 
 module.exports = userController
