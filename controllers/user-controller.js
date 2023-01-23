@@ -262,31 +262,25 @@ const userController = {
   },
   putUser: async (req, res, next) => {
     try {
-      const reqUser = req.user
-      const { role, name, email, password, confirmPassword } = req.body
+      const { role, name, password, confirmPassword } = req.body
       const paramsId = Number(req.params.id)
-      if (!role?.trim() || !email?.trim() || !password?.trim() || !confirmPassword?.trim()) return res.status(400).json({
+      if (!role?.trim() || !password?.trim() || !confirmPassword?.trim()) return res.status(400).json({
         status: '400F',
-        message: 'Fields:role, email, account, password and confirmPassword are required.'
+        message: 'Field:role, account, password and confirmPassword are required.'
       })
       if (password !== confirmPassword) return res.status(400).json({
         status: '400F',
-        message: 'Fields:密碼與確認密碼不相符!'
+        message: 'Field:密碼與確認密碼不相符!'
       })
       const { files } = req
-      const [user, userFoundByEmail, avatarFilePath, coverFilePath] = await Promise.all([
+      const [user, avatarFilePath, coverFilePath] = await Promise.all([
         prisma.user.findUnique({ where: { id: paramsId } }),
-        prisma.user.findUnique({ where: { email } }),
         imgurUploadImageHandler(files?.avatar ? files.avatar[0] : null),
         imgurUploadImageHandler(files?.cover ? files.cover[0] : null)
       ])
       if (!user) return res.status(404).json({
         status: 'error',
         message: "User is not found"
-      })
-      if ((email === userFoundByEmail?.email) && (userFoundByEmail?.id !== reqUser.id)) return res.status(400).json({
-        statusCode: '400D',
-        message: 'Data:email 已重複註冊!'
       })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
