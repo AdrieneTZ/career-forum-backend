@@ -79,6 +79,81 @@ const answerController = {
       next(error)
     }
   },
+
+  // Edit the specific answer
+  // PUT /api/v1/answers/:id
+  putAnswer: async (req, res, next) => {
+    try {
+      const currentUserId = req.user.id
+      const answerId = Number(req.params.id)
+      let { content } = req.body
+
+      // Check if the specific answer exists
+      const answer = await prisma.answer.findUnique({
+        where: {
+          id: answerId,
+        },
+      })
+
+      // If the specific answer doesn't exist, earily return
+      if (!answer) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'The specific answer is not found.',
+        })
+      }
+
+      // User can only edit his own answer
+      if (answer.userId !== currentUserId) {
+        return res.status(403).json({
+          status: 'error',
+          message: 'Current user can only edit his own answer.',
+        })
+      }
+
+      // To prevent error happening, check the content
+      if (!content) {
+        return res.status(400).json({
+          status: '400F',
+          message: 'Field: content is required.',
+        })
+      }
+
+      if (typeof content !== 'string') {
+        return res.status(400).json({
+          status: '400F',
+          message: 'Field: datatype of the content must be string.',
+        })
+      }
+
+      content = content.trim()
+      if (content.length > 500) {
+        return res.status(406).json({
+          status: 'error',
+          message: 'Content length must be less than 500 characters.',
+        })
+      }
+
+      // Update the specific answer
+      const updatedAnswer = await prisma.answer.update({
+        where: {
+          id: answerId,
+        },
+        data: {
+          content: content,
+          userId: currentUserId,
+          questionId: answer.questionId,
+        },
+      })
+      return res.status(200).json({
+        status: 'success',
+        message: 'The specific answer is updated.',
+        updatedAnswer,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
 }
 
 module.exports = answerController
