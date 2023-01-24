@@ -1,8 +1,6 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-const { getOffset } = require('../helpers/pagination-helpers')
-
 const answerController = {
   // Get the specific answer with its id
   // GET /api/v1/answers/:id
@@ -149,6 +147,52 @@ const answerController = {
         status: 'success',
         message: 'The specific answer is updated.',
         updatedAnswer,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  // Delete the specific answer
+  // DELETE /api/v1/answers/:id
+  deleteAnswer: async (req, res, next) => {
+    try {
+      const currentUserId = req.user.id
+      const answerId = Number(req.params.id)
+
+      // Check if the specific answer exists
+      const answer = await prisma.answer.findUnique({
+        where: {
+          id: answerId,
+        },
+      })
+
+      // If the specific answer doesn't exist, earily return
+      if (!answer) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'The specific answer is not found.',
+        })
+      }
+
+      // User can only delete his own answer
+      if (answer.userId !== currentUserId) {
+        return res.status(403).json({
+          status: 'error',
+          message: 'Current user can only delete his own answer.',
+        })
+      }
+
+      // Delete the specific answer
+      const deletedAnswer = await prisma.answer.delete({
+        where: {
+          id: answerId,
+        },
+      })
+      return res.status(200).json({
+        status: 'success',
+        message: 'The specific answer is deleted.',
+        deletedAnswer,
       })
     } catch (error) {
       next(error)
