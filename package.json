@@ -18,10 +18,10 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "cross-env NODE_ENV=development && nodemon app.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --coverage",
     "migrate": "npx prisma migrate dev",
-    "seed": "npx prisma db seed",
-    "test": "jest"
+    "seed": "npx prisma db seed"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -39,6 +39,7 @@
   "description": "",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "prisma": "^4.7.1"
+    "prisma": "^4.7.1",
+    "supertest": "^6.3.3"
   }
 }
