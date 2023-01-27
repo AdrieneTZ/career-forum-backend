@@ -173,7 +173,7 @@ const questionController = {
       })
       if (content?.trim().length > 500) return res.status(400).json({
         status: '400FL',
-        message: 'Field: title length should be under 500 characters.'
+        message: 'Field: content length should be under 500 characters.'
       })
       const question = await prisma.question.create({
         data: {
@@ -218,7 +218,7 @@ const questionController = {
       })
       if (content?.trim().length > 500) return res.status(400).json({
         status: '400FL',
-        message: 'Field: title length should be under 500 characters.'
+        message: 'Field: content length should be under 500 characters.'
       })
       const updatedQuestion = await prisma.question.update({
         where: { id: questionId },
