@@ -54,6 +54,10 @@ const questionController = {
         skip: offset,
         take: limit,
       })
+      if (!questions) res.status(404).json({
+        status: 'error',
+        message: 'Questions are not found.'
+      })
       const renewQuestions = questions
         .map(question => ({
           ...question,
@@ -115,12 +119,8 @@ const questionController = {
       const page = Number(req.query.page) || DEFAULT_PAGE
       const limit = Number(req.query.limit) || DEFAULT_LIMIT
       const offset = getOffset(limit, page)
+
       const questionId = Number(req.params.id)
-      const count = await prisma.answer.count({
-        where: { questionId },
-        skip: offset,
-        take: limit,
-      })
       const answers = await prisma.answer.findMany({
         where: { questionId },
         include: {
@@ -133,6 +133,17 @@ const questionController = {
             },
           }
         },
+        skip: offset,
+        take: limit,
+      })
+      if (!answers) {
+        return res.status(404).json({
+          status: 'error',
+          message: `The question's answers are not found.`,
+        })
+      }
+      const count = await prisma.answer.count({
+        where: { questionId },
         skip: offset,
         take: limit,
       })
@@ -152,9 +163,17 @@ const questionController = {
     try {
       const { title, content } = req.body
       const userId = req.user.id
-      if (!content || !title) return res.status(400).json({
-        status: 'error',
-        message: 'Title and content is required.',
+      if (!title || !content) return res.status(400).json({
+        status: '400FR',
+        message: 'Field: title and content are required.'
+      })
+      if (title?.trim().length > 50) return res.status(400).json({
+        status: '400FL',
+        message: 'Field: title length should be under 50 characters.'
+      })
+      if (content?.trim().length > 500) return res.status(400).json({
+        status: '400FL',
+        message: 'Field: content length should be under 500 characters.'
       })
       const question = await prisma.question.create({
         data: {
@@ -190,8 +209,16 @@ const questionController = {
         message: 'Permission denied.'
       })
       if (!title || !content) return res.status(400).json({
-        status: '400F',
+        status: '400FR',
         message: 'Field: title and content are required.'
+      })
+      if (title?.trim().length > 50 ) return res.status(400).json({
+        status: '400FL',
+        message: 'Field: title length should be under 50 characters.'
+      })
+      if (content?.trim().length > 500) return res.status(400).json({
+        status: '400FL',
+        message: 'Field: content length should be under 500 characters.'
       })
       const updatedQuestion = await prisma.question.update({
         where: { id: questionId },

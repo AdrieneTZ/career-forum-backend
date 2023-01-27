@@ -2,11 +2,12 @@ const multer = require('multer')
 const upload = multer({
   dest: 'temp/',
   fileFilter(req, file, cb) {
-    // 只接受三種圖片格式
-    if (!file.originalname.match(/\.(jpg|jpeg|png|JPG|JPEG|PNG)$/)) {
-      cb(new Error('Please upload an image'))
-    }
-    cb(null, true)
+    // Only accept three kinds of image formats: jpg, jpeg, png
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') return cb(null, true)
+
+    const err = new Error('Please upload image file format.')
+    err.status = 400
+    return cb(err, false)
   }
 })
 
