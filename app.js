@@ -19,6 +19,8 @@ app.use('/api/v1', routes)
 app.use('/', (req, res) => { res.send('Fallback: Oops! Something went wrong.') })
 app.use('/', generalErrorHandler)
 
-app.listen(port, () => console.log(`This app is listening on port ${port}.`))
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => console.log(`This app is listening on port ${port}.`))
+}
 
 module.exports = app
