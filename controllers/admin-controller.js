@@ -120,13 +120,9 @@ const adminController = {
         data: {
           approvalStatus: approvalStatus,
         },
-        select: {
-          id: true,
-          name: true,
-          approvalStatus: true,
-        },
       })
 
+      delete updatedUser.password
       return res.status(200).json({
         status: 'success',
         message: 'Update approvalStatus',
