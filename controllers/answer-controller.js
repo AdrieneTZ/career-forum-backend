@@ -41,23 +41,23 @@ const answerController = {
       // To prevent error happening, check the content
       if (!content) {
         return res.status(400).json({
-          status: '400F',
+          status: '400FR',
           message: 'Field: content is required.',
         })
       }
 
       if (typeof content !== 'string') {
         return res.status(400).json({
-          status: '400F',
+          status: '400FT',
           message: 'Field: datatype of the content must be string.',
         })
       }
 
       content = content.trim()
       if (content.length > 500) {
-        return res.status(406).json({
-          status: 'error',
-          message: 'Content length must be less than 500 characters.',
+        return res.status(400).json({
+          status: '400FL',
+          message: 'Field: content length must be less than 500 characters.',
         })
       }
 
@@ -112,23 +112,23 @@ const answerController = {
       // To prevent error happening, check the content
       if (!content) {
         return res.status(400).json({
-          status: '400F',
+          status: '400FR',
           message: 'Field: content is required.',
         })
       }
 
       if (typeof content !== 'string') {
         return res.status(400).json({
-          status: '400F',
+          status: '400FT',
           message: 'Field: datatype of the content must be string.',
         })
       }
 
       content = content.trim()
       if (content.length > 500) {
-        return res.status(406).json({
-          status: 'error',
-          message: 'Content length must be less than 500 characters.',
+        return res.status(400).json({
+          status: '400FL',
+          message: 'Field: content length must be less than 500 characters.',
         })
       }
 
