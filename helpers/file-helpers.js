@@ -1,5 +1,5 @@
 const { ImgurClient } = require('imgur')
-const { createReadStream } = require('fs')
+const { createReadStream, promises } = require('fs')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const IMGUR_CLIENT_SECRET = process.env.IMGUR_CLIENT_SECRET
 const IMGUR_REFRESH_TOKEN = process.env.IMGUR_REFRESH_TOKEN
