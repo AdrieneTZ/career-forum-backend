@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "^4.9.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -40,6 +40,6 @@
   "description": "",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "prisma": "^4.7.1"
+    "prisma": "^4.9.0"
   }
 }
