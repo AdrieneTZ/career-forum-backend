@@ -20,7 +20,7 @@ ALTER TABLE `Answer` MODIFY `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIM
 ALTER TABLE `Question` MODIFY `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
 
 -- AlterTable
-ALTER TABLE `user` DROP COLUMN `account`,
+ALTER TABLE `User` DROP COLUMN `account`,
     DROP COLUMN `isAdmin`,
     DROP COLUMN `isDeleted`,
     DROP COLUMN `isSuspended`,

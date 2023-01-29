@@ -1,11 +1,11 @@
 -- DropForeignKey
-ALTER TABLE `answer` DROP FOREIGN KEY `Answer_questionId_fkey`;
+ALTER TABLE `Answer` DROP FOREIGN KEY `Answer_questionId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `answer` DROP FOREIGN KEY `Answer_userId_fkey`;
+ALTER TABLE `Answer` DROP FOREIGN KEY `Answer_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `question` DROP FOREIGN KEY `Question_userId_fkey`;
+ALTER TABLE `Question` DROP FOREIGN KEY `Question_userId_fkey`;
 
 -- AddForeignKey
 ALTER TABLE `Question` ADD CONSTRAINT `Question_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
