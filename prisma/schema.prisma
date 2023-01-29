@@ -24,8 +24,8 @@ model User {
   permissionRole permissionRole @default(user)
   suspendedAt    DateTime?
   deletedAt      DateTime?
-  Question       Question[]
-  Answer         Answer[]
+  Questions      Question[]
+  Answers        Answer[]
 
   @@index([email])
 }
@@ -33,22 +33,22 @@ model User {
 model Question {
   id        Int       @id @default(autoincrement())
   title     String
-  content   String
+  content   String    @db.Text
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  Answer    Answer[]
-  User      User      @relation(fields: [userId], references: [id])
+  Answers   Answer[]
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int
 }
 
 model Answer {
   id         Int       @id @default(autoincrement())
-  content    String
+  content    String    @db.Text
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  User       User      @relation(fields: [userId], references: [id])
+  User       User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     Int
-  Question   Question  @relation(fields: [questionId], references: [id])
+  Question   Question  @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionId Int
 }
 

@@ -3,32 +3,27 @@ const { getUser } = require('../helpers/req-helpers')
 
 const authenticated = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
-    if (err || !user) return res.status(401).json({ status: 'error', message: 'Unauthorized request' })
+    if (err || !user) return res.status(401).json({ status: 'error', message: 'Unauthorized' })
     req.user = user
     next()
   })(req, res, next)
 }
-const authAdmin = (req, res, next) => {
-  if (getUser(req) && getUser(req).isAdmin) return next()
-  return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
+const authPermissionRole = (req, res, next) => {
+  if (getUser(req) && getUser(req).permissionRole === 'admin') return next()
+  return res.status(403).json({ status: 'error', message: 'Forbidden permission role' })
 }
-// const authRole = (req, res, next) => {
-//   if (getUser(req) && getUser(req).role === ('TA' || 'STUDENT' || 'GRADUATE')) return next()
-//   return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
-// }
 const authApprovalStatus = (req, res, next) => {
   if (getUser(req) && getUser(req).approvalStatus === 'approved') return next()
-  return res.status(403).json({ status: 'error', message: 'Unauthorized request' })
+  return res.status(403).json({ status: 'error', message: 'Forbidden approvalStatus' })
 }
 const authCurrentUser = (req, res, next) => {
   if (getUser(req).id === Number(req.params.id)) return next()
-  return res.status(403).json({ status: 'error', message: 'You can only edit your own data' })
+  return res.status(403).json({ status: 'error', message: 'You can only edit your own profile data' })
 }
 
 module.exports = {
   authenticated,
-  authAdmin,
-  // authRole,
+  authPermissionRole,
   authApprovalStatus,
   authCurrentUser
 }
