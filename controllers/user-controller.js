@@ -97,7 +97,7 @@ const userController = {
       if (!user) {
         return res.status(404).json({
           status: 'error',
-          message: 'User does not exist',
+          message: 'User does not exist.',
         })
       }
       res.status(200).json({
@@ -131,7 +131,7 @@ const userController = {
       if (!user) {
         return res.status(404).json({
           status: 'error',
-          message: 'User does not exist',
+          message: 'User does not exist.',
         })
       }
       res.status(200).json({
@@ -162,7 +162,7 @@ const userController = {
       if (!user)
         return res.status(404).json({
           status: 'error',
-          message: 'User is not found',
+          message: 'User is not found.',
         })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
@@ -176,7 +176,7 @@ const userController = {
       delete updatedUser.password
       res.status(200).json({
         status: 'success',
-        message: '成功修改個人資料',
+        message: 'Update user profile.',
         user: updatedUser,
       })
     } catch (error) {
@@ -187,44 +187,51 @@ const userController = {
     try {
       const { oldPassword, password, confirmPassword } = req.body
       const paramsId = Number(req.params.id)
+      // 舊密碼、新密碼及新密碼確認三個欄位皆為必填
       if (!oldPassword?.trim() || !password?.trim() || !confirmPassword?.trim())
         return res.status(400).json({
           status: '400FR',
           message:
             'Field: oldPassword, password and confirmPassword are required.',
         })
+      // 密碼與確認密碼不符
       if (password !== confirmPassword)
         return res.status(400).json({
           status: '400FM',
           message: 'Field: password and confirmPassword are not matched.',
         })
+      // 用 id 去找使用者
       const user = await prisma.user.findUnique({ where: { id: paramsId } })
       if (!user)
         return res.status(404).json({
           status: 'error',
-          message: 'User is not found',
+          message: 'User is not found.',
         })
+      // 看舊密碼跟資料庫的是否一致
       const passwordCompare = await bcrypt.compare(oldPassword, user.password)
       if (!passwordCompare) {
-        const error = new Error('Passwords do not match!')
+        const error = new Error('Wrong oldPassword.')
         error.status = 401
         throw error
       }
+      // 更新使用者密碼
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
         data: {
           password: await bcrypt.hash(password, 10),
         },
       })
+      // 把密碼欄位刪掉不回傳前端
       delete updatedUser.password
-      if (user.permissionRole === 'admin')
+      // 如果 email 中包含 admin 且身份也是 admin 權限的話，此為測試專用 admin 帳號
+      if (user?.email.includes('admin') && user?.permissionRole === 'admin')
         return res.status(403).json({
           status: 'error',
-          message: `Admin's password can not be modified`,
+          message: `Admin-testing account's password can not be modified.`,
         })
       res.status(200).json({
         status: 'success',
-        message: '成功修改個人資料',
+        message: 'Update user setting.',
         user: updatedUser,
       })
     } catch (error) {
@@ -238,7 +245,7 @@ const userController = {
       if (!user)
         return res.status(404).json({
           status: 'error',
-          message: 'User is not found',
+          message: 'User is not found.',
         })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
@@ -252,7 +259,7 @@ const userController = {
       })
       res.status(200).json({
         status: 'success',
-        message: '成功刪除封面照',
+        message: 'Delete cover.',
         user: updatedUser,
       })
     } catch (error) {
@@ -266,7 +273,7 @@ const userController = {
       if (!user)
         return res.status(404).json({
           status: 'error',
-          message: 'User is not found',
+          message: 'User is not found.',
         })
       const updatedUser = await prisma.user.update({
         where: { id: paramsId },
@@ -280,7 +287,7 @@ const userController = {
       })
       res.status(200).json({
         status: 'success',
-        message: '成功刪除頭像',
+        message: 'Delete avatar.',
         user: updatedUser,
       })
     } catch (error) {
