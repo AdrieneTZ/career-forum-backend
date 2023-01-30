@@ -39,7 +39,7 @@ const userController = {
         })
       } else if (user) {
         return res.status(400).json({
-          status: '400F',
+          status: '400FD',
           message: 'Field: email has been used.',
         })
       }
@@ -148,14 +148,14 @@ const userController = {
       const paramsId = Number(req.params.id)
       if (!role?.trim() || !password?.trim() || !confirmPassword?.trim())
         return res.status(400).json({
-          status: '400F',
+          status: '400FR',
           message:
-            'Field:role, account, password and confirmPassword are required.',
+            'Field: role, account, password and confirmPassword are required.',
         })
       if (password !== confirmPassword)
         return res.status(400).json({
-          status: '400F',
-          message: 'Field:密碼與確認密碼不相符!',
+          status: '400FM',
+          message: 'Field: password and confirmPassword are not matched.',
         })
       const { files } = req
       const [user, avatarFilePath, coverFilePath] = await Promise.all([

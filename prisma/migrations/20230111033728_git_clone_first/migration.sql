@@ -7,6 +7,6 @@
 
 */
 -- AlterTable
-ALTER TABLE `user` MODIFY `isAdmin` BOOLEAN NOT NULL DEFAULT false,
+ALTER TABLE `User` MODIFY `isAdmin` BOOLEAN NOT NULL DEFAULT false,
     MODIFY `isDeleted` BOOLEAN NOT NULL DEFAULT false,
     MODIFY `isSuspended` BOOLEAN NOT NULL DEFAULT false;
