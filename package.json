@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "^4.9.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -11,7 +11,9 @@
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pm2": "^5.2.2",
+    "tslib": "^2.5.0"
   },
   "name": "career-forum-backend",
   "version": "1.0.0",
@@ -19,6 +21,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "migrate": "npx prisma migrate dev",
+    "seed": "npx prisma db seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
@@ -37,6 +40,6 @@
   "description": "",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "prisma": "^4.7.1"
+    "prisma": "^4.9.0"
   }
 }
