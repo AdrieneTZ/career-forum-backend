@@ -91,6 +91,7 @@ const userController = {
           cover: true,
           createdAt: true,
           updatedAt: true,
+          permissionRole: true,
         },
       })
       if (!user) {
