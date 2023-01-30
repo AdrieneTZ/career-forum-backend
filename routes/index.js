@@ -7,8 +7,6 @@ const admins = require('./modules/admins')
 
 const passport = require('../config/passport')
 
-const passport = require('../config/passport')
-
 const userController = require('../controllers/user-controller')
 
 // Import middlewares
