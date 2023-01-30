@@ -20,14 +20,14 @@ passport.use(new LocalStrategy(
       const user = await prisma.user.findUnique({ where: { email } })
       if (!user) {
         const error = new Error('User does not exist!')
-        error.statusCode = 401
+        error.status = 401
         cb(error)
         return
       }
       const passwordCompare = await bcrypt.compare(password, user.password)
       if (!passwordCompare) {
         const error = new Error('Passwords do not match!')
-        error.statusCode = 401
+        error.status = 401
         cb(error)
         return
       }

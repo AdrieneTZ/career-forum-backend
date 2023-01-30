@@ -143,20 +143,15 @@ const userController = {
       next(error)
     }
   },
-  putUser: async (req, res, next) => {
+  putUserProfile: async (req, res, next) => {
     try {
-      const { role, name, password, confirmPassword } = req.body
+      const { role, name } = req.body
       const paramsId = Number(req.params.id)
-      if (!role?.trim() || !password?.trim() || !confirmPassword?.trim())
+      if (!role?.trim() || !name?.trim())
         return res.status(400).json({
           status: '400FR',
           message:
-            'Field: role, account, password and confirmPassword are required.',
-        })
-      if (password !== confirmPassword)
-        return res.status(400).json({
-          status: '400FM',
-          message: 'Field: password and confirmPassword are not matched.',
+            'Field: role and name are required.',
         })
       const { files } = req
       const [user, avatarFilePath, coverFilePath] = await Promise.all([
@@ -174,12 +169,59 @@ const userController = {
         data: {
           role,
           name,
-          password: await bcrypt.hash(password, 10),
           avatar: avatarFilePath || user.avatar,
           cover: coverFilePath || user.cover,
         },
       })
       delete updatedUser.password
+      res.status(200).json({
+        status: 'success',
+        message: '成功修改個人資料',
+        user: updatedUser,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+  putUserSetting: async (req, res, next) => {
+    try {
+      const { oldPassword, password, confirmPassword } = req.body
+      const paramsId = Number(req.params.id)
+      if (!oldPassword?.trim() || !password?.trim() || !confirmPassword?.trim())
+        return res.status(400).json({
+          status: '400FR',
+          message:
+            'Field: oldPassword, password and confirmPassword are required.',
+        })
+      if (password !== confirmPassword)
+        return res.status(400).json({
+          status: '400FM',
+          message: 'Field: password and confirmPassword are not matched.',
+        })
+      const user = await prisma.user.findUnique({ where: { id: paramsId } })
+      if (!user)
+        return res.status(404).json({
+          status: 'error',
+          message: 'User is not found',
+        })
+      const passwordCompare = await bcrypt.compare(oldPassword, user.password)
+      if (!passwordCompare) {
+        const error = new Error('Passwords do not match!')
+        error.status = 401
+        throw error
+      }
+      const updatedUser = await prisma.user.update({
+        where: { id: paramsId },
+        data: {
+          password: await bcrypt.hash(password, 10),
+        },
+      })
+      delete updatedUser.password
+      if (user.permissionRole === 'admin')
+        return res.status(403).json({
+          status: 'error',
+          message: `Admin's password can not be modified`,
+        })
       res.status(200).json({
         status: 'success',
         message: '成功修改個人資料',
