@@ -10,8 +10,10 @@ router.get('/current_user', userController.getCurrentUser)
 router.patch('/:id/avatar', authCurrentUser, upload.fields({ name: 'cover', maxCount: 1 }), userController.patchUserAvatar)
 // 修改個人資料中的背景圖
 router.patch('/:id/cover', authCurrentUser, upload.fields({ name: 'cover', maxCount: 1 }), userController.patchUserCover)
-// 修改個人資料
-router.put('/:id', authCurrentUser, upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'cover', maxCount: 1 }]), userController.putUser)
+// 修改個人檔案
+router.put('/:id/profile', authCurrentUser, upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'cover', maxCount: 1 }]), userController.putUserProfile)
+// 修改個人帳號設定
+router.put('/:id/setting', authCurrentUser, userController.putUserSetting)
 // 取得單筆使用者
 router.get('/:id', userController.getUser)
 
