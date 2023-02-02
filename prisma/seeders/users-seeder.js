@@ -9,13 +9,24 @@ async function generateUsers() {
       data: {
         role: 'graduate',
         name: name,
-        email: `${name}@${name}.com`,
-        password: await bcrypt.hash('12345678', 10),
+        email: `${name}@$careerForum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
         approvalStatus: 'approved',
         permissionRole: 'user',
       },
     })
   }
+
+  await prisma.user.create({
+    data: {
+      role: 'TA',
+      name: 'admin',
+      email: `admin@$careerForum.com`,
+      password: await bcrypt.hash(`As123456!`, 10),
+      approvalStatus: 'approved',
+      permissionRole: 'admin',
+    },
+  })
 }
 
 module.exports = generateUsers
