@@ -1,8 +1,9 @@
+const { faker } = require('@faker-js/faker')
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function generateAnswers() {
-  // [ { id: 10 }, { id: 8 }, { id: 7 }, { id: 9 } ]
+  // userIds: [ { id: 10 }, { id: 8 }, { id: 7 }, { id: 9 } ]
   const userIds = await prisma.user.findMany({
     select: {
       id: true,
@@ -18,7 +19,7 @@ async function generateAnswers() {
     for (const userIdObj of userIds) {
       await prisma.answer.create({
         data: {
-          content: `wwwwwwwww`,
+          content: faker.lorem.sentence(10),
           userId: userIdObj.id,
           questionId: questionIdObj.id,
         },

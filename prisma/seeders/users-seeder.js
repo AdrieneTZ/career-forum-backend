@@ -11,7 +11,7 @@ async function generateUsers() {
         name: name,
         email: `${name}@${name}.com`,
         password: await bcrypt.hash('12345678', 10),
-        approvalStatus: 'reviewing',
+        approvalStatus: 'approved',
         permissionRole: 'user',
       },
     })
