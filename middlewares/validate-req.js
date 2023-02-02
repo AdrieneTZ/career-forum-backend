@@ -33,6 +33,14 @@ const validateRegisterRequestBody = (req, res, next) => {
     })
   }
 
+  // Check name length
+  if (name.length > 20) {
+    return res.status(400).json({
+      status: '400FL',
+      message: 'Field: name length has to be less than 20 characters.',
+    })
+  }
+
   // Check password length
   if (password.length < 6) {
     return res.status(400).json({

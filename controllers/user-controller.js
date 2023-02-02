@@ -152,6 +152,11 @@ const userController = {
           message:
             'Field: role, account, password and confirmPassword are required.',
         })
+      if (name.length > 20)
+        return res.status(400).json({
+          status: '400FL',
+          message: 'Field: name length has to be less than 20 characters.',
+        })
       if (password !== confirmPassword)
         return res.status(400).json({
           status: '400FM',
