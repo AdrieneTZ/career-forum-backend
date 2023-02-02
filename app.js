@@ -20,7 +20,9 @@ app.use('/api/v1', routes)
 app.use('/', (req, res) => { res.send('Fallback: Oops! Something went wrong.') }) //Fallback
 app.use('/', generalErrorHandler) // Error handler
 
-app.listen(port, () => console.log(`This app is listening on port ${port}.`))
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => console.log(`This app is listening on port ${port}.`))
+}
 
 setInterval(clearTempFile, 43200000) // 單位是ms毫秒，相當於半天(12小時)清理一次
 
