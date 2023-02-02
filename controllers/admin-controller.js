@@ -36,6 +36,7 @@ const adminController = {
           select: {
             id: true,
             role: true,
+            name: true,
             email: true,
             approvalStatus: true,
             avatar: true,
