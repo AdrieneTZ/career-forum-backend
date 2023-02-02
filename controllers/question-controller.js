@@ -104,7 +104,7 @@ const questionController = {
       question.answerCount = answerCount
       res.status(200).json({
         status: 'success',
-        message: "Get specific question",
+        message: "Get specific question.",
         question
       })
     } catch (error) {
@@ -149,7 +149,7 @@ const questionController = {
       })
       res.status(200).json({
         status: 'success',
-        message: `Get specific question's answer`,
+        message: `Get specific question's answer.`,
         count,
         page,
         limit,
