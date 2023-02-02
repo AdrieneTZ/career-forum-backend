@@ -17,15 +17,25 @@ async function generateUsers() {
     })
   }
 
-  await prisma.user.create({
-    data: {
-      role: 'TA',
-      name: 'admin',
-      email: `admin@careerForum.com`,
-      password: await bcrypt.hash(`As123456!`, 10),
-      approvalStatus: 'approved',
-      permissionRole: 'admin',
-    },
+  await prisma.user.createMany({
+    data: [
+      {
+        role: 'TA',
+        name: 'admin',
+        email: `admin@careerForum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
+        approvalStatus: 'approved',
+        permissionRole: 'admin',
+      },
+      {
+        role: 'student',
+        name: 'user',
+        email: `user@careerForum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
+        approvalStatus: 'approved',
+        permissionRole: 'user',
+      },
+    ],
   })
 }
 
