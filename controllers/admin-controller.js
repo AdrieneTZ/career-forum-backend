@@ -115,6 +115,14 @@ const adminController = {
         })
       }
 
+      // Admin can't change admin's approvalStatus
+      if (user.permissionRole === 'admin') {
+        return res.status(403).json({
+          status: 'error',
+          message: `Admin is not allowed to change admin's approvalStatus.`,
+        })
+      }
+
       // Update approvalStatus
       const updatedUser = await prisma.user.update({
         where: {
