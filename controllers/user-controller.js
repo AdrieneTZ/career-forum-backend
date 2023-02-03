@@ -204,6 +204,13 @@ const userController = {
           message:
             'Field: oldPassword, password and confirmPassword are required.',
         })
+      // 密碼與確認密碼長度必須大於8
+      if (password.trim().length < 8)
+        return res.status(400).json({
+          status: '400FL',
+          message:
+            'Field: password and confirmPassword length have to be more than 8 characters.',
+        })
       // 密碼與確認密碼不符
       if (password !== confirmPassword)
         return res.status(400).json({

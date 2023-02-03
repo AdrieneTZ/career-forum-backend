@@ -41,15 +41,16 @@ const validateRegisterRequestBody = (req, res, next) => {
     })
   }
 
-  // Check password length
-  if (password.length < 6) {
+  // Check password and confirmPassword length
+  if (password.length < 8 || confirmPassword.length < 8) {
     return res.status(400).json({
       status: '400FL',
-      message: 'Field: password length has to be more than 6 characters.',
+      message:
+        'Field: password and confirmPassword length have to be more than 8 characters.',
     })
   }
 
-  // Check if password and confirm password are matched
+  // Check if password and confirmPassword are matched
   if (password !== confirmPassword) {
     return res.status(400).json({
       status: '400FM',
