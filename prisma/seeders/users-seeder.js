@@ -9,13 +9,34 @@ async function generateUsers() {
       data: {
         role: 'graduate',
         name: name,
-        email: `${name}@${name}.com`,
-        password: await bcrypt.hash('12345678', 10),
-        approvalStatus: 'reviewing',
+        email: `${name}@careerforum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
+        approvalStatus: 'approved',
         permissionRole: 'user',
       },
     })
   }
+
+  await prisma.user.createMany({
+    data: [
+      {
+        role: 'TA',
+        name: 'admin',
+        email: `admin@careerforum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
+        approvalStatus: 'approved',
+        permissionRole: 'admin',
+      },
+      {
+        role: 'student',
+        name: 'user',
+        email: `user@careerforum.com`,
+        password: await bcrypt.hash(`As123456!`, 10),
+        approvalStatus: 'approved',
+        permissionRole: 'user',
+      },
+    ],
+  })
 }
 
 module.exports = generateUsers

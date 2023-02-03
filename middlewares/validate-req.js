@@ -17,12 +17,28 @@ const validateRegisterRequestBody = (req, res, next) => {
     })
   }
 
+  // Check if there is white space in email, password or confirmPassword
+  if (
+    email.includes(' ') ||
+    password.includes(' ') ||
+    confirmPassword.includes(' ')
+  ) {
+    return res.status(400).json({
+      status: '400FS',
+      message:
+        'Field: white space is not allowed in email, password or confirmPassword.',
+    })
+  }
+
   // Remove white space in each string
   role = role.replace(/\s+/g, '')
   email = email.replace(/\s+/g, '')
   name = name.replace(/\s+/g, '')
   password = password.replace(/\s+/g, '')
   confirmPassword = confirmPassword.replace(/\s+/g, '')
+
+  // Change email to lowercase
+  email = email.toLowerCase()
 
   // Check if there is missing data
   if (!role || !email || !name || !password || !confirmPassword) {
@@ -33,15 +49,24 @@ const validateRegisterRequestBody = (req, res, next) => {
     })
   }
 
-  // Check password length
-  if (password.length < 6) {
+  // Check name length
+  if (name.length > 20) {
     return res.status(400).json({
       status: '400FL',
-      message: 'Field: password length has to be more than 6 characters.',
+      message: 'Field: name length has to be less than 20 characters.',
     })
   }
 
-  // Check if password and confirm password are matched
+  // Check password and confirmPassword length
+  if (password.length < 8 || confirmPassword.length < 8) {
+    return res.status(400).json({
+      status: '400FL',
+      message:
+        'Field: password and confirmPassword length have to be more than 8 characters.',
+    })
+  }
+
+  // Check if password and confirmPassword are matched
   if (password !== confirmPassword) {
     return res.status(400).json({
       status: '400FM',
@@ -73,9 +98,20 @@ const validateLoginRequestBody = (req, res, next) => {
     })
   }
 
+  // Check if there is white space in email or password
+  if (email.includes(' ') || password.includes(' ')) {
+    return res.status(400).json({
+      status: '400FS',
+      message: 'Field: white space is not allowed in email or password.',
+    })
+  }
+
   // Remove white space in each string
   email = email.replace(/\s+/g, '')
   password = password.replace(/\s+/g, '')
+
+  // Change email to lowercase
+  email = email.toLowerCase()
 
   // Check if there is missing data
   if (!email || !password) {

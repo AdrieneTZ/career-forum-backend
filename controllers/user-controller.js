@@ -150,8 +150,12 @@ const userController = {
       if (!role?.trim() || !name?.trim())
         return res.status(400).json({
           status: '400FR',
-          message:
-            'Field: role and name are required.',
+          message: 'Field: role and name are required.',
+        })
+      if (name.length > 20)
+        return res.status(400).json({
+          status: '400FL',
+          message: 'Field: name length has to be less than 20 characters.',
         })
       const { files } = req
       const [user, avatarFilePath, coverFilePath] = await Promise.all([
@@ -187,12 +191,30 @@ const userController = {
     try {
       const { oldPassword, password, confirmPassword } = req.body
       const paramsId = Number(req.params.id)
-      // 舊密碼、新密碼及新密碼確認三個欄位皆為必填
+      // 舊密碼、新密碼及新密碼不得含有空白鍵
+      if (
+        oldPassword.includes(' ') ||
+        password.includes(' ') ||
+        confirmPassword.includes(' ')
+      )
+        return res.status(400).json({
+          status: '400FS',
+          message:
+            'Field: white space is not allowed in oldPassword, password or confirmPassword.',
+        })
       if (!oldPassword?.trim() || !password?.trim() || !confirmPassword?.trim())
+        // 舊密碼、新密碼及新密碼確認三個欄位皆為必填
         return res.status(400).json({
           status: '400FR',
           message:
             'Field: oldPassword, password and confirmPassword are required.',
+        })
+      // 密碼與確認密碼長度必須大於8
+      if (password.trim().length < 8)
+        return res.status(400).json({
+          status: '400FL',
+          message:
+            'Field: password and confirmPassword length have to be more than 8 characters.',
         })
       // 密碼與確認密碼不符
       if (password !== confirmPassword)

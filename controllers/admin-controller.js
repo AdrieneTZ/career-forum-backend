@@ -64,9 +64,11 @@ const adminController = {
           select: {
             id: true,
             role: true,
+            name: true,
             email: true,
             approvalStatus: true,
             avatar: true,
+            createdAt: true,
           },
           skip: offset,
           take: limit,
@@ -110,6 +112,14 @@ const adminController = {
         return res.status(404).json({
           status: 'error',
           message: 'User data is not found.',
+        })
+      }
+
+      // Admin can't change admin's approvalStatus
+      if (user.permissionRole === 'admin') {
+        return res.status(403).json({
+          status: 'error',
+          message: `Admin is not allowed to change admin's approvalStatus.`,
         })
       }
 

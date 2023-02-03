@@ -2,7 +2,8 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function generateQuestions() {
-  const userIds = await prisma.user.findMany({ select: { id: true } }) // [ { id: 10 }, { id: 8 }, { id: 7 }, { id: 9 } ]
+  // userIds: [ { id: 10 }, { id: 8 }, { id: 7 }, { id: 9 } ]
+  const userIds = await prisma.user.findMany({ select: { id: true } })
 
   for (const userIdObj of userIds) {
     await prisma.question.createMany({
