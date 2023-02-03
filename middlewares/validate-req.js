@@ -38,7 +38,7 @@ const validateRegisterRequestBody = (req, res, next) => {
   confirmPassword = confirmPassword.replace(/\s+/g, '')
 
   // Change email to lowercase
-  email.toLowerCase()
+  email = email.toLowerCase()
 
   // Check if there is missing data
   if (!role || !email || !name || !password || !confirmPassword) {
@@ -111,7 +111,7 @@ const validateLoginRequestBody = (req, res, next) => {
   password = password.replace(/\s+/g, '')
 
   // Change email to lowercase
-  email.toLowerCase()
+  email = email.toLowerCase()
 
   // Check if there is missing data
   if (!email || !password) {
