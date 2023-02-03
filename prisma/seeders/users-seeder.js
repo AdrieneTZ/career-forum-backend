@@ -9,7 +9,7 @@ async function generateUsers() {
       data: {
         role: 'graduate',
         name: name,
-        email: `${name}@careerForum.com`,
+        email: `${name}@careerforum.com`,
         password: await bcrypt.hash(`As123456!`, 10),
         approvalStatus: 'approved',
         permissionRole: 'user',
@@ -22,7 +22,7 @@ async function generateUsers() {
       {
         role: 'TA',
         name: 'admin',
-        email: `admin@careerForum.com`,
+        email: `admin@careerforum.com`,
         password: await bcrypt.hash(`As123456!`, 10),
         approvalStatus: 'approved',
         permissionRole: 'admin',
@@ -30,7 +30,7 @@ async function generateUsers() {
       {
         role: 'student',
         name: 'user',
-        email: `user@careerForum.com`,
+        email: `user@careerforum.com`,
         password: await bcrypt.hash(`As123456!`, 10),
         approvalStatus: 'approved',
         permissionRole: 'user',
