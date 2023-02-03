@@ -191,8 +191,19 @@ const userController = {
     try {
       const { oldPassword, password, confirmPassword } = req.body
       const paramsId = Number(req.params.id)
-      // 舊密碼、新密碼及新密碼確認三個欄位皆為必填
+      // 舊密碼、新密碼及新密碼不得含有空白鍵
+      if (
+        oldPassword.includes(' ') ||
+        password.includes(' ') ||
+        confirmPassword.includes(' ')
+      )
+        return res.status(400).json({
+          status: '400FS',
+          message:
+            'Field: white space is not allowed in oldPassword, password or confirmPassword.',
+        })
       if (!oldPassword?.trim() || !password?.trim() || !confirmPassword?.trim())
+        // 舊密碼、新密碼及新密碼確認三個欄位皆為必填
         return res.status(400).json({
           status: '400FR',
           message:

@@ -17,12 +17,28 @@ const validateRegisterRequestBody = (req, res, next) => {
     })
   }
 
+  // Check if there is white space in email, password or confirmPassword
+  if (
+    email.includes(' ') ||
+    password.includes(' ') ||
+    confirmPassword.includes(' ')
+  ) {
+    return res.status(400).json({
+      status: '400FS',
+      message:
+        'Field: white space is not allowed in email, password or confirmPassword.',
+    })
+  }
+
   // Remove white space in each string
   role = role.replace(/\s+/g, '')
   email = email.replace(/\s+/g, '')
   name = name.replace(/\s+/g, '')
   password = password.replace(/\s+/g, '')
   confirmPassword = confirmPassword.replace(/\s+/g, '')
+
+  // Change email to lowercase
+  email.toLowerCase()
 
   // Check if there is missing data
   if (!role || !email || !name || !password || !confirmPassword) {
@@ -82,9 +98,20 @@ const validateLoginRequestBody = (req, res, next) => {
     })
   }
 
+  // Check if there is white space in email or password
+  if (email.includes(' ') || password.includes(' ')) {
+    return res.status(400).json({
+      status: '400FS',
+      message: 'Field: white space is not allowed in email or password.',
+    })
+  }
+
   // Remove white space in each string
   email = email.replace(/\s+/g, '')
   password = password.replace(/\s+/g, '')
+
+  // Change email to lowercase
+  email.toLowerCase()
 
   // Check if there is missing data
   if (!email || !password) {
