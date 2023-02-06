@@ -9,24 +9,18 @@ Career Forum is a project for AC TAs, alumni and students to ask the questions a
 
 - Project Link: **[Career Forum](https://careerforum-group.vercel.app/)**
 
-## URL
-#### [Production Environment Base Url:](https://0lrxs3wck8.execute-api.ap-northeast-1.amazonaws.com/api/v1)
+- Test Account:
+  ```
+  // user
+  email: user@careerforum.com
+  password: As123456!
+  ```
 
-```
-https://0lrxs3wck8.execute-api.ap-northeast-1.amazonaws.com/api/v1
-
-// user
-email: user@careerforum.com
-password: As123456!
-
-// admin
-email: admin@careerforum.com
-password: As123456!
-```
-#### Local Environment Base Url:
-```
-http://localhost:3000/api/v1
-```
+  ```
+  // admin
+  email: admin@careerforum.com
+  password: As123456!
+  ```
 
 
 ## ERD
@@ -36,6 +30,7 @@ http://localhost:3000/api/v1
 ### [Prerequisite](#prerequisite)
 ### [Start the Project](#start-the-project)
 ### API Documents
+  #### Local Environment Base Url: `http://localhost:3000/api/v1`
 | Entity | File |
 | :------: | :----: |
 | User | [user-apis.md](APIs/user-apis.md) |
