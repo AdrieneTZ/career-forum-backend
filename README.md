@@ -7,11 +7,14 @@ Career Forum is a project for AC TAs, alumni and students to ask the questions a
   - All students that are at the third semester
   - Attended the the third semester and graduated from AC
 
+- Project Link: **[Career Forum](https://careerforum-group.vercel.app/)**
 
 ## URL
 #### [Production Environment Base Url:](https://0lrxs3wck8.execute-api.ap-northeast-1.amazonaws.com/api/v1)
 
 ```
+https://0lrxs3wck8.execute-api.ap-northeast-1.amazonaws.com/api/v1
+
 // user
 email: user@careerforum.com
 password: As123456!
