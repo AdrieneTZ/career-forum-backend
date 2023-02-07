@@ -1,12 +1,12 @@
 ## Question APIs
-| Feature                                  | HTTP Method | URL                           |
-| ---------------------------------------- | :---------: | ----------------------------- |
-| create an question                       |    POST     | /api/v1/questions             |
-| get the specific question                |     GET     | /api/v1/questions/:id         |
-| get all questions                        |     GET     | /api/v1/questions             |
-| get all answers of the specific question |     GET     | /api/v1/questions/:id/answers |
-| edit the specific question               |     PUT     | /api/v1/questions/:id         |
-| delete the specific question             |   DELETE    | /api/v1/questions/:id         |
+| Feature                                                                                              | HTTP Method | URL                           |
+| ---------------------------------------------------------------------------------------------------- | :---------: | ----------------------------- |
+| [create an question](#question-postquestion-post-apiv1questions)                                     |    POST     | /api/v1/questions             |
+| [get the specific question](#question-getquestion-get-apiv1questionsid)                              |     GET     | /api/v1/questions/:id         |
+| [get all answers of the specific](#question-getquestions-get-apiv1questions)                         |     GET     | /api/v1/questions             |
+| [get all answers of the specific question](#question-getquestionanswers-get-apiv1questionsidanswers) |     GET     | /api/v1/questions/:id/answers |
+| [edit the specific question](#question-putquestion-put-apiv1questionsid)                             |     PUT     | /api/v1/questions/:id         |
+| [delete the specific question](#question-deletequestion-delete-apiv1questionsid)                     |   DELETE    | /api/v1/questions/:id         |
 
 
 ### Question postQuestion `POST /api/v1/questions`
@@ -58,6 +58,7 @@
         "message": "Field: content length should be under 500 characters."
       }
       ```
+
 ### Question getQuestion `GET /api/v1/questions/:id`
   - **Parameters:**
 
@@ -102,7 +103,7 @@
       }
       ```
 
-### Question getQuestions `GET /api/v1/questions?page=&limit=`
+### Question getQuestions `GET /api/v1/questions`
   - **Parameters:**
 
     | KEY   | VALUE |
@@ -171,7 +172,8 @@
         "message": "Questions are not found."
       }
       ```
-### Question getQuestionAnswers `GET /api/v1/questions/:id/answers?page=&limit=`
+
+### Question getQuestionAnswers `GET /api/v1/questions/:id/answers`
   - **Parameters:**
 
     | KEY   | VALUE |
@@ -233,5 +235,137 @@
       {
         "status": "error",
         "message": "The question's answers are not found."
+      }
+      ```
+
+### Question putQuestion `PUT /api/v1/questions/:id`
+  - **Parameters:**
+
+    | KEY | VALUE |
+    | --- | ----- |
+    | id  | 1     |
+
+  - **Requset body:**
+    ```json
+    {
+      "title":"testPutQ1" (required),
+      "content":"testPutQ1" (required)
+    }
+    ```
+
+  - **Response:**
+    - **Success**
+  
+      ```json
+      status code: 200
+      
+      {
+        "status": "success",
+        "message": "Successfully modify question",
+        "question": {
+            "id": 1,
+            "title": "testPutQ1",
+            "content": "testPutQ1",
+            "createdAt": "2023-02-07T07:27:14.950Z",
+            "updatedAt": "2023-02-07T08:54:12.288Z",
+            "userId": 5
+        }
+      }
+      ```
+      
+    - **Error: data not found**
+       ```json
+      status code: 404
+
+      {
+        "status": "error",
+        "message": "The question is not found."
+      }
+      ```
+
+    - **Error:**
+       ```json
+      status code: 403
+
+      {
+        "status": "error",
+        "message": "Permission denied."
+      }
+      ```
+
+    - **Error:**
+       ```json
+      status code: 400
+
+      {
+        "status": "400FR",
+        "message": "Field: title and content are required."
+      }
+      ```
+
+    - **Error:**
+       ```json
+      status code: 400
+
+      {
+        "status": "400FL",
+        "message": "Field: title length should be under 50 characters."
+      }
+      ```
+
+    - **Error:**
+       ```json
+      status code: 400
+
+      {
+        "status": "400FL",
+        "message": "Field: content length should be under 500 characters."
+      }
+      ```
+
+### Question deleteQuestion `DELETE /api/v1/questions/:id`
+  - **Parameters:**
+
+    | KEY | VALUE |
+    | --- | ----- |
+    | id  | 25    |
+
+  - **Response:**
+    - **Success**
+  
+      ```json
+      status code: 200
+      
+      {
+        "status": "success",
+        "message": "Successfully delete question",
+        "question": {
+            "id": 25,
+            "title": "testQ1",
+            "content": "testQ1",
+            "createdAt": "2023-02-07T07:28:22.932Z",
+            "updatedAt": "2023-02-07T07:28:22.932Z",
+            "userId": 5
+        }
+      }
+      ```
+      
+    - **Error: data not found**
+       ```json
+      status code: 404
+
+      {
+        "status": "error",
+        "message": "The question is not found."
+      }
+      ```
+
+    - **Error:**
+       ```json
+      status code: 403
+
+      {
+        "status": "error",
+        "message": "Permission denied."
       }
       ```
