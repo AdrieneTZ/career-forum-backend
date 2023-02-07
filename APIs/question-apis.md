@@ -102,3 +102,136 @@
       }
       ```
 
+### Question getQuestions `GET /api/v1/questions?page=&limit=`
+  - **Parameters:**
+
+    | KEY   | VALUE |
+    | ----- | ----- |
+    | page  |       |
+    | limit |       |
+
+  - **Response:**
+    - **Success**
+  
+      ```json
+      status code: 200
+      
+      {
+        "status": "success",
+        "message": "Get questions",
+        "count": 1,  // 資料總筆數
+        "page": 1, // 預設回傳第一頁
+        "limit": 10, // 預設回傳 10 筆資料
+        "questions": [
+            {
+                "id": 1,  // questions PK:id
+                "title": "如何找到好工作?",
+                "content": "內文",
+                "createdAt": "2023-01-11T15:54:30.000Z",
+                "updatedAt": "2023-01-11T15:54:30.000Z",
+                "userId": 1, // FK: userId
+                "User": { //問題擁有者
+                    "id": 1,
+                    "role": "student",
+                    "name": "Lois",
+                    "avatar": null
+                },
+                "Answers": [
+                    { // 預設回傳最新，limit:1
+                        "id": 1, // answer PK:id
+                        "content": "找好工作的秘訣就是投履歷",
+                        "createdAt": "2023-01-11T15:54:33.000Z",
+                        "updatedAt": "2023-01-11T15:54:33.000Z",
+                        "questionId": 1,  // FK: questionId
+                        "userId": 1,  // FK: userId
+                        "User": {  //回答擁有者
+                            "id": 1, // user PK:id
+                            "role": "student",
+                            "name": "Lois",
+                            "avatar": null
+                        }
+                    }
+                ],
+                "_count": {
+                    "Answers": 1 //為了算answersCount而有的欄位
+                },
+                "answersCount": 4
+            },
+          //...
+        ]
+      }
+      ```
+      
+    - **Error: data not found**
+       ```json
+      status code: 404
+
+      {
+        "status": "error",
+        "message": "Questions are not found."
+      }
+      ```
+### Question getQuestionAnswers `GET /api/v1/questions/:id/answers?page=&limit=`
+  - **Parameters:**
+
+    | KEY   | VALUE |
+    | ----- | ----- |
+    | page  |       |
+    | limit |       |
+    | id    | 1     |
+
+  - **Response:**
+    - **Success**
+  
+      ```json
+      status code: 200
+      
+      {
+        "status": "success",
+        "message": "Get specific question's answer.",    
+        "count": 2, // 資料回傳總筆數
+        "page": 1, // 預設回傳第一頁
+        "limit": 10, // 預設回傳 10 筆資料
+        "answers": [
+            {
+                "id": 1, // question PK:id
+                "content": "找好工作的秘訣就是投履歷",
+                "createdAt": "2023-01-11T21:26:57.000Z",
+                "updatedAt": "2023-01-11T21:26:57.000Z",
+                "questionId": 1, // FK: questionId
+                "userId": 1, // FK:userId
+                "User": { // 回答擁有者
+                    "id": 1, // user PK:id
+                    "role": "graduate",
+                    "name": "user",
+                    "avatar": null
+                }
+            },
+            {
+                "id": 2,
+                "content": "好工作需要緣分",
+                "createdAt": "2023-01-11T21:27:06.000Z",
+                "updatedAt": "2023-01-11T21:27:06.000Z",
+                "questionId": 1,
+                "userId": 1,
+                "User": {
+                    "id": 1,
+                    "role": "graduate",
+                    "name": "user",
+                    "avatar": null
+                }
+            }
+          //...
+        ]
+      }
+      ```
+      
+    - **Error: data not found**
+       ```json
+      status code: 404
+
+      {
+        "status": "error",
+        "message": "The question's answers are not found."
+      }
+      ```
