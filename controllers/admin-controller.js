@@ -81,7 +81,7 @@ const adminController = {
       if (!users) {
         return res.status(404).json({
           status: 'error',
-          message: 'Users data are not found.',
+          message: `Users' data are not found.`,
         })
       } else if (users) {
         return res.status(200).json({
