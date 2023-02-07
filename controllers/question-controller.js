@@ -149,7 +149,7 @@ const questionController = {
       })
       res.status(200).json({
         status: 'success',
-        message: `Get specific question's answer.`,
+        message: `Get specific question's answers.`,
         count,
         page,
         limit,
@@ -229,7 +229,7 @@ const questionController = {
       })
       res.status(200).json({
         status: 'success',
-        message: 'Successfully modify question',
+        message: 'Successfully modify the question',
         question: updatedQuestion
       })
     } catch (error) {
@@ -257,7 +257,7 @@ const questionController = {
       })
       res.status(200).json({
         status: 'success',
-        message: 'Successfully delete question',
+        message: 'Successfully delete the question',
         question: deletedQuestion
       })
     } catch (error) {

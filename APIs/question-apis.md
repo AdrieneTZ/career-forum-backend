@@ -1,9 +1,9 @@
 ## Question APIs
 | Feature                                                                                              | HTTP Method | URL                           |
 | ---------------------------------------------------------------------------------------------------- | :---------: | ----------------------------- |
-| [create an question](#question-postquestion-post-apiv1questions)                                     |    POST     | /api/v1/questions             |
+| [create a question](#question-postquestion-post-apiv1questions)                                     |    POST     | /api/v1/questions             |
 | [get the specific question](#question-getquestion-get-apiv1questionsid)                              |     GET     | /api/v1/questions/:id         |
-| [get all answers of the specific](#question-getquestions-get-apiv1questions)                         |     GET     | /api/v1/questions             |
+| [get all questions](#question-getquestions-get-apiv1questions)                         |     GET     | /api/v1/questions             |
 | [get all answers of the specific question](#question-getquestionanswers-get-apiv1questionsidanswers) |     GET     | /api/v1/questions/:id/answers |
 | [edit the specific question](#question-putquestion-put-apiv1questionsid)                             |     PUT     | /api/v1/questions/:id         |
 | [delete the specific question](#question-deletequestion-delete-apiv1questionsid)                     |   DELETE    | /api/v1/questions/:id         |
@@ -190,7 +190,7 @@
       
       {
         "status": "success",
-        "message": "Get specific question's answer.",    
+        "message": "Get specific question's answers.",    
         "count": 2, // 資料回傳總筆數
         "page": 1, // 預設回傳第一頁
         "limit": 10, // 預設回傳 10 筆資料
