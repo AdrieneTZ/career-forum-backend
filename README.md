@@ -1,34 +1,50 @@
-# Career Forum Backend
-## Introduction
+<div align="center">
+<h1><b>職涯論壇 Career Forum</b></h1>
+<h3>人生沒有明確的答案，<br/>
+但你可以透過問答探尋你的職涯方向</h3>
+<br/>
+<h3><a href="https://careerforum-group.vercel.app/" target="_blank">前往我們的職涯論壇 Click to try Career Forum</a></h3>
+<table>
+<label>範例帳號 Try with example accounts</label><br/>
+  <tr>
+    <th>email</th>
+    <td>user@careerForum.com</td>
+    <td>admin@careerForum.com</td>
+  </tr>
+  <tr>
+    <th>password</th>
+    <td>As123456!</td>
+    <td>As123456!</td>
+  </tr>
+</table>
+<br/>
+</div>
+
+## Contents
+### [Introduction](#introduction)
+### [Career Forum Backend](#career-forum-backend)
+### [Prerequisite](#prerequisite)
+### [Start the Project](#start-the-project)
+### [API Documents](#api-documents)
+
+### Introduction
+#### About Career Forum
 Career Forum is a project for AC TAs, alumni and students to ask the questions and share their answers while finding jobs.
 
 - Qualification for registering:
   - All AC TAs
   - All students that are at the third semester
-  - Attended the the third semester and graduated from AC
-
-- Project Link: **[Career Forum](https://careerforum-group.vercel.app/)**
-
-- Test Account:
-  ```
-  // user
-  email: user@careerforum.com
-  password: As123456!
-  ```
-
-  ```
-  // admin
-  email: admin@careerforum.com
-  password: As123456!
-  ```
+  - Has Attended the the third semester and graduated from AC
 
 
-## ERD
-![ERD](images/career-forum-ERD.jpeg)
+### Career Forum Backend
+  ### Tech Stack
+<img src="https://skills.thijs.gg/icons?i=javascript,mysql,prisma,aws,jest&theme=dark" alt="technology" width="300"/>
 
-## Contents
-### [Prerequisite](#prerequisite)
-### [Start the Project](#start-the-project)
+  #### ERD
+  ![ERD](images/career-forum-ERD.jpeg)
+
+
 ### API Documents
   #### Local Environment Base Url: `http://localhost:3000/api/v1`
 | Entity | File |
@@ -40,7 +56,7 @@ Career Forum is a project for AC TAs, alumni and students to ask the questions a
 
 
 ### Prerequisite
-- Node.js v18.12.1
+- Node.js v16.19.0
 - install MySQL Workbench
 
 ### Start The Project
