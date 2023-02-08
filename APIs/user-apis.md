@@ -14,7 +14,7 @@
 
 ### User register `POST /api/v1/register`
   - **Requset body:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | role | TA, graduate, or student | string | Y |
     | email |  | string | Y & unique |
@@ -120,7 +120,7 @@
 
 ### User login `POST /api/v1/login`
   - **Requset body:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | email |  | string | Y |
     | password |  | string | Y |
@@ -245,7 +245,7 @@
 
 ### Get the specific user's data `GET /api/v1/users/:id`
   - **Requset params:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | id |  | number | Y |
 
@@ -304,11 +304,12 @@
 
 ### Edit the specific user's profile data `PUT /api/v1/users/:id/profile`
   - **Request params:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
+    | id |  | number | Y |
 
   - **Request body:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | role | TA, graduate, or student | string | Y |
     | name |  | string | Y |
@@ -402,12 +403,12 @@
 ### Edit the specific user's account setting `PUT /api/v1/users/:id/setting`
 
   - **Request params:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | id |  | number | Y |
 
   - **Request body:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | oldPassword |  | string | Y |
     | password |  | string | Y |
@@ -541,7 +542,7 @@
 ### Delete the specific user's avatar `PATCH /api/v1/users/:id/avatar`
 
 - **Request params:**
-  | Key | Value | Type | Required |
+  | KEY | VALUE | TYPE | REQUIRED |
   | --- | ----- | ---- | :--------: |
   | id |  | number | Y |
 
@@ -605,7 +606,7 @@
 ### Delete the specific user's cover photo `PATCH /api/v1/users/:id/cover`
 
 - **Request params:**
-    | Key | Value | Type | Required |
+    | KEY | VALUE | TYPE | REQUIRED |
     | --- | ----- | ---- | :--------: |
     | id |  | number | Y |
 

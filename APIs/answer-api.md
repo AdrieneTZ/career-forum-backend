@@ -10,9 +10,9 @@
 ### Answers postAnswer `POST /api/v1/questions/:id/answers`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 1     |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 1     | number | Y |
 
   - **Requset body:**
     ```json
@@ -23,10 +23,10 @@
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Create an answer.",
@@ -74,16 +74,16 @@
 ### Answers getAnswer `GET /api/v1/answers/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 1     |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 1     | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Get the specific answer.",
@@ -97,7 +97,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -111,9 +111,9 @@
 ### Answers putAnswer `PUT /api/v1/answers/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 145   |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 145   | number | Y |
 
   - **Requset body:**
     ```json
@@ -124,10 +124,10 @@
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "The specific answer is updated.",
@@ -141,7 +141,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -195,16 +195,16 @@
 ### Answers deleteAnswer `DELETE /api/v1/answers/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 145    |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 145    | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "The specific answer is deleted.",
@@ -218,7 +218,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404

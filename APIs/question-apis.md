@@ -20,10 +20,10 @@
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "成功新增問題",
@@ -37,7 +37,7 @@
         }
       }
       ```
-      
+
     - **Error: data required**
        ```json
       status code: 400
@@ -62,16 +62,16 @@
 ### Question getQuestion `GET /api/v1/questions/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 1     |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 1     | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Get specific question.",
@@ -92,7 +92,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -106,17 +106,17 @@
 ### Question getQuestions `GET /api/v1/questions`
   - **Parameters:**
 
-    | KEY   | VALUE |
-    | ----- | ----- |
-    | page  |       |
-    | limit |       |
+    | KEY   | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | page  |       | number | Y |
+    | limit |       | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Get questions",
@@ -162,7 +162,7 @@
         ]
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -176,21 +176,21 @@
 ### Question getQuestionAnswers `GET /api/v1/questions/:id/answers`
   - **Parameters:**
 
-    | KEY   | VALUE |
-    | ----- | ----- |
-    | page  |       |
-    | limit |       |
-    | id    | 1     |
+    | KEY   | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | page  |       | number | Y |
+    | limit |       | number | Y |
+    | id    | 1     | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
-        "message": "Get specific question's answers.",    
+        "message": "Get specific question's answers.",
         "count": 2, // 資料回傳總筆數
         "page": 1, // 預設回傳第一頁
         "limit": 10, // 預設回傳 10 筆資料
@@ -227,7 +227,7 @@
         ]
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -241,9 +241,9 @@
 ### Question putQuestion `PUT /api/v1/questions/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 1     |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 1     | number | Y |
 
   - **Requset body:**
     ```json
@@ -255,10 +255,10 @@
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Successfully modify question",
@@ -272,7 +272,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
@@ -326,16 +326,16 @@
 ### Question deleteQuestion `DELETE /api/v1/questions/:id`
   - **Parameters:**
 
-    | KEY | VALUE |
-    | --- | ----- |
-    | id  | 25    |
+    | KEY | VALUE | TYPE | REQUIRED |
+    | --- | ----- | ---- | :--------: |
+    | id  | 25    | number | Y |
 
   - **Response:**
     - **Success**
-  
+
       ```json
       status code: 200
-      
+
       {
         "status": "success",
         "message": "Successfully delete question",
@@ -349,7 +349,7 @@
         }
       }
       ```
-      
+
     - **Error: data not found**
        ```json
       status code: 404
