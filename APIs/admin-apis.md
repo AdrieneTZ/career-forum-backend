@@ -8,13 +8,11 @@
 
 ### Get all users' data with or without approval status `GET /api/v1/admins/users`
   - **Request query:**
-    ```json
-    {
-      "approvalStatus": "string",
-      "page": "number",
-      "limit": "number"
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | approvalStatus |  | string | N |
+    | page |  | number | N |
+    | limit |  | number | N |
 
   - **Response:**
     - **Success**
@@ -85,18 +83,14 @@
 
 ### Change the specific user's approval status `PATCH /api/v1/admins/users/:id`
   - **Request params:**
-    ```json
-    {
-      "id": "number" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | id |  | number | Y |
 
   - **Request body:**
-    ```json
-    {
-      "approvalStatus": "string" (required one of three: "reviewing", "approved", "rejected")
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | approvalStatus | reviewing, approved or rejected | string | Y |
 
   - **Response:**
     - **Success**
