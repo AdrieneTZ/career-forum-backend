@@ -14,15 +14,13 @@
 
 ### User register `POST /api/v1/register`
   - **Requset body:**
-    ```json
-    {
-      "role": "string" (required),
-      "email": "string" (required and unique),
-      "name": "string" (required),
-      "password": "string" (required),
-      "confirmPassword": "string" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | role | TA, graduate, or student | string | Y |
+    | email |  | string | Y & unique |
+    | name |  | string | Y |
+    | password |  | string | Y |
+    | confirmPassword |  | string | Y |
 
   - **Response:**
     - **Success**
@@ -122,12 +120,10 @@
 
 ### User login `POST /api/v1/login`
   - **Requset body:**
-    ```json
-    {
-      "email": "string" (required),
-      "password": "string" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | email |  | string | Y |
+    | password |  | string | Y |
 
   - **Response:**
     - **Success**
@@ -249,11 +245,10 @@
 
 ### Get the specific user's data `GET /api/v1/users/:id`
   - **Requset params:**
-    ```json
-    {
-      "id": "number" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | id |  | number | Y |
+
   - **Response:**
     - **Success**
       ```json
@@ -309,18 +304,14 @@
 
 ### Edit the specific user's profile data `PUT /api/v1/users/:id/profile`
   - **Request params:**
-    ```json
-    {
-      "id": "number" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+
   - **Request body:**
-    ```json
-    {
-      "role": "string" (required one of three: "TA", "graduate", "student"),
-      "name": "string" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | role | TA, graduate, or student | string | Y |
+    | name |  | string | Y |
 
   - **Response:**
     - **Success**
@@ -411,19 +402,16 @@
 ### Edit the specific user's account setting `PUT /api/v1/users/:id/setting`
 
   - **Request params:**
-    ```json
-    {
-      "id": "number" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | id |  | number | Y |
+
   - **Request body:**
-    ```json
-    {
-      "oldPassword": "string" (required),
-      "password": "string" (required),
-      "confirmPassword": "string" (required)
-    }
-    ```
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | oldPassword |  | string | Y |
+    | password |  | string | Y |
+    | confirmPassword |  | string | Y |
 
   - **Response:**
     - **Success**
@@ -553,13 +541,9 @@
 ### Delete the specific user's avatar `PATCH /api/v1/users/:id/avatar`
 
 - **Request params:**
-  ```json
-  {
-    "id": "number" (required)
-  }
-  ```
-
-- **Request body:** No request body
+  | Key | Value | Type | Required |
+  | --- | ----- | ---- | :--------: |
+  | id |  | number | Y |
 
 - **Response:**
   - **Success**
@@ -621,13 +605,9 @@
 ### Delete the specific user's cover photo `PATCH /api/v1/users/:id/cover`
 
 - **Request params:**
-  ```json
-  {
-    "id": "number" (required)
-  }
-  ```
-
-- **Request body:** No request body
+    | Key | Value | Type | Required |
+    | --- | ----- | ---- | :--------: |
+    | id |  | number | Y |
 
 - **Response:**
   - **Success**
