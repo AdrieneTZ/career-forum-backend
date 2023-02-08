@@ -1,9 +1,9 @@
 ## Question APIs
 | Feature                                                                                              | HTTP Method | URL                           |
 | ---------------------------------------------------------------------------------------------------- | :---------: | ----------------------------- |
-| [create a question](#question-postquestion-post-apiv1questions)                                     |    POST     | /api/v1/questions             |
+| [create a question](#question-postquestion-post-apiv1questions)                                      |    POST     | /api/v1/questions             |
 | [get the specific question](#question-getquestion-get-apiv1questionsid)                              |     GET     | /api/v1/questions/:id         |
-| [get all questions](#question-getquestions-get-apiv1questions)                         |     GET     | /api/v1/questions             |
+| [get all questions](#question-getquestions-get-apiv1questions)                                       |     GET     | /api/v1/questions             |
 | [get all answers of the specific question](#question-getquestionanswers-get-apiv1questionsidanswers) |     GET     | /api/v1/questions/:id/answers |
 | [edit the specific question](#question-putquestion-put-apiv1questionsid)                             |     PUT     | /api/v1/questions/:id         |
 | [delete the specific question](#question-deletequestion-delete-apiv1questionsid)                     |   DELETE    | /api/v1/questions/:id         |
@@ -13,8 +13,8 @@
   - **Requset body:**
     ```json
     {
-      "title":"testQ1" (required),
-      "content":"testQ1" (required)
+      "title": "testQ1" (required),
+      "content": "testQ1" (required)
     }
     ```
 
