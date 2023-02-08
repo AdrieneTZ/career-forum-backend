@@ -8,8 +8,8 @@
 <label>範例帳號 Try with example accounts</label><br/>
   <tr>
     <th>email</th>
-    <td>user@careerForum.com</td>
-    <td>admin@careerForum.com</td>
+    <td>user@careerforum.com</td>
+    <td>admin@careerforum.com</td>
   </tr>
   <tr>
     <th>password</th>
