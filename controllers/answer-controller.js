@@ -39,25 +39,22 @@ const answerController = {
       let { content } = req.body
 
       // To prevent error happening, check the content
-      if (!content) {
-        return res.status(400).json({
-          status: '400FR',
-          message: 'Field: content is required.',
-        })
-      }
-
       if (typeof content !== 'string') {
         return res.status(400).json({
           status: '400FT',
           message: 'Field: datatype of the content must be string.',
         })
       }
-
-      content = content.trim()
-      if (content.length > 500) {
+      if (!content?.trim()) {
+        return res.status(400).json({
+          status: '400FR',
+          message: 'Field: content is required.',
+        })
+      }
+      if (content?.length > 2000) {
         return res.status(400).json({
           status: '400FL',
-          message: 'Field: content length must be less than 500 characters.',
+          message: 'Field: content length must be less than 2000 characters.',
         })
       }
 
