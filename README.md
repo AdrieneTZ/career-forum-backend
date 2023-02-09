@@ -20,15 +20,16 @@
 <br/>
 </div>
 
-## Contents
-### [Introduction](#introduction)
-### [Career Forum Backend](#career-forum-backend)
-### [Prerequisite](#prerequisite)
-### [Start the Project](#start-the-project)
-### [API Documents](#api-documents)
+# Contents
+## [Introduction](#1-introduction)
+## [Career Forum Backend](#2-career-forum-backend)
+## [API Documents](#3-api-documents)
+## [Prerequisite](#4-prerequisite)
+## [Start the Project](#5-start-the-project)
 
-### Introduction
-#### About Career Forum
+
+## 1. Introduction
+### About Career Forum
 Career Forum is a project for AC TAs, alumni and students to ask the questions and share their answers while finding jobs.
 
 - Qualification for registering:
@@ -37,16 +38,16 @@ Career Forum is a project for AC TAs, alumni and students to ask the questions a
   - Has Attended the the third semester and graduated from AC
 
 
-### Career Forum Backend
+## 2. Career Forum Backend
   ### Tech Stack
 <img src="https://skills.thijs.gg/icons?i=javascript,mysql,prisma,aws,jest&theme=dark" alt="technology" width="300"/>
 
-  #### ERD
-  ![ERD](images/career-forum-ERD.jpeg)
+  ### ERD
+   ![ERD](images/career-forum-ERD.jpeg)
 
 
-### API Documents
-  #### Local Environment Base Url: `http://localhost:3000/api/v1`
+## 3. API Documents
+  ### Local Environment Base Url: `http://localhost:3000/api/v1`
 | Entity | File |
 | :------: | :----: |
 | User | [user-apis.md](APIs/user-apis.md) |
@@ -55,11 +56,11 @@ Career Forum is a project for AC TAs, alumni and students to ask the questions a
 | Answer | [answer-apis.md](APIs/answer-api.md) |
 
 
-### Prerequisite
-- Node.js v16.19.0
-- install MySQL Workbench
+## 4. Prerequisite
+- Install Node.js v16.19.0
+- Install MySQL Workbench
 
-### Start The Project
+## 5. Start The Project
 - clone this repository
   ```
   $ git clone https://github.com/AdrieneTZ/career-forum-backend.git
