@@ -31,7 +31,7 @@ server.listen(port, () => console.log(`This app is listening on port ${port}.`))
 
 if (process.env.NODE_ENV !== 'test') {
   // Jest 執行時預設的 NODE_ENV 是 test
-  setInterval(clearTempFile, 3600000) // 單位是 ms 毫秒，相當於每 1 小時清理一次
+  setInterval(clearTempFile, 43200000) // 單位是 ms 毫秒，相當於每 12 小時清理一次
 }
 // 因為 setInterval 是 server 啟動後會持續運作的 API，而跑測試會讓 server 啟動，接著觸發 setInterval 後 Jest 就無法在測試結束後 Exit，因此這邊的寫法是讓非測試環境時才啟動 setInterval，以免發生測試後 Jest 不會自行 Exit 的問題
 
